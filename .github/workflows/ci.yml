@@ -1,0 +1,246 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  CARGO_TERM_COLOR: always
+  NODE_VERSION: "20"
+
+jobs:
+  # ── Frontend checks ──────────────────────────────────────────
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+  # ── Backend lint + types (independent of tests) ──────────────
+  backend-lint:
+    name: Backend Lint + Types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: cd backend && uv sync --frozen
+
+      - name: Ruff lint
+        run: cd backend && uv run ruff check .
+
+      - name: Mypy type check
+        run: cd backend && uv run mypy .
+
+  # ── Backend: Core domain tests ───────────────────────────────
+  backend-core:
+    name: Tests - Core
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: cd backend && uv sync --frozen
+
+      - name: Domain + Core tests
+        run: cd backend && uv run pytest tests/domain/ tests/core/ tests/repositories/ tests/use_cases/ -v --tb=short
+
+  # ── Backend: Store integration tests ─────────────────────────
+  backend-stores:
+    name: Tests - Stores
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: cd backend && uv sync --frozen
+      - name: Store tests
+        run: cd backend && uv run pytest tests/stores/ -v --tb=short
+
+  # ── Backend: Runner tests ────────────────────────────────────
+  backend-runners:
+    name: Tests - Runners
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: cd backend && uv sync --frozen
+      - name: Runner tests
+        run: cd backend && uv run pytest tests/runners/ -v --tb=short
+
+  # ── Backend: Installer tests ─────────────────────────────────
+  backend-installer:
+    name: Tests - Installer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: cd backend && uv sync --frozen
+      - name: Installer tests
+        run: cd backend && uv run pytest tests/installer/ -v --tb=short
+
+  # ── Backend: API integration tests ───────────────────────────
+  backend-api:
+    name: Tests - API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: cd backend && uv sync --frozen
+      - name: API tests
+        run: cd backend && uv run pytest tests/api/ -v --tb=short
+
+  # ── Tauri build check ────────────────────────────────────────
+  tauri:
+    name: Tauri cargo check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            build-essential \
+            curl \
+            wget \
+            file \
+            libxdo-dev \
+            libssl-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            pkg-config
+      - name: Cargo check
+        run: cd src-tauri && cargo check
+        env:
+          TAURI_DISABLE_DEVTOOLS: 1
+
+  # ── Gate job: all checks must pass ────────────────────────────
+  gate:
+    name: Gate
+    if: always()
+    needs:
+      - frontend
+      - backend-lint
+      - backend-core
+      - backend-stores
+      - backend-runners
+      - backend-installer
+      - backend-api
+      - tauri
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check all results
+        run: |
+          echo "════════════════════════════════════════════════════"
+          echo "  Checking all CI results..."
+          echo "════════════════════════════════════════════════════"
+          FAILED=0
+
+          echo "[frontend] ${{ needs.frontend.result }}"
+          if [ "${{ needs.frontend.result }}" != "success" ]; then FAILED=1; fi
+
+          echo "[backend-lint] ${{ needs.backend-lint.result }}"
+          if [ "${{ needs.backend-lint.result }}" != "success" ]; then FAILED=1; fi
+
+          echo "[backend-core] ${{ needs.backend-core.result }}"
+          if [ "${{ needs.backend-core.result }}" != "success" ]; then FAILED=1; fi
+
+          echo "[backend-stores] ${{ needs.backend-stores.result }}"
+          if [ "${{ needs.backend-stores.result }}" != "success" ]; then FAILED=1; fi
+
+          echo "[backend-runners] ${{ needs.backend-runners.result }}"
+          if [ "${{ needs.backend-runners.result }}" != "success" ]; then FAILED=1; fi
+
+          echo "[backend-installer] ${{ needs.backend-installer.result }}"
+          if [ "${{ needs.backend-installer.result }}" != "success" ]; then FAILED=1; fi
+
+          echo "[backend-api] ${{ needs.backend-api.result }}"
+          if [ "${{ needs.backend-api.result }}" != "success" ]; then FAILED=1; fi
+
+          echo "[tauri] ${{ needs.tauri.result }}"
+          if [ "${{ needs.tauri.result }}" != "success" ]; then FAILED=1; fi
+
+          echo ""
+          if [ "$FAILED" -eq 0 ]; then
+            echo "  ✅ ALL CHECKS PASSED"
+          else
+            echo "  ❌ SOME CHECKS FAILED — fix before merging"
+            exit 1
+          fi
