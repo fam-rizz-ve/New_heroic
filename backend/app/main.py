@@ -28,27 +28,43 @@ logger = structlog.get_logger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    """Application lifespan: auto-create default library on startup.
+    """Application lifespan: init DB tables and auto-create default library.
 
-    The default library serves as the unified game collection
-    (Heroic-style), removing the need for manual library creation.
+    When a database URL is configured, initializes the database schema.
+    Otherwise, auto-creates a default in-memory library (Heroic-style).
     """
-    # Initialize use cases singleton to ensure the same repository
-    # is used by both lifespan and API endpoints.
-    from app.api.dependencies import get_use_cases
+    from app.core.config import settings
 
-    use_cases = get_use_cases()
-    repo = use_cases._library_repo
-    libraries = repo.list_all()
-    if not libraries:
-        default_lib = Library(
-            id=LibraryId.generate(),
-            name="Game Library",
-            store_source=StoreSource.LOCAL,
-        )
-        repo.save(default_lib)
-        logger.info("Default library created", name=default_lib.name)
+    # Initialize database if configured
+    if settings.database_url:
+        from app.core.database import close_db as _close_db
+        from app.core.database import init_db as _init_db
+
+        _init_db()
+        logger.info("Database initialized", url=settings.database_url)
+        app.state._close_db = _close_db
+    else:
+        # In-memory mode: auto-create default library
+        from app.api.dependencies import get_use_cases
+
+        use_cases = get_use_cases()
+        repo = use_cases._library_repo
+        libraries = repo.list_all()
+        if not libraries:
+            default_lib = Library(
+                id=LibraryId.generate(),
+                name="Game Library",
+                store_source=StoreSource.LOCAL,
+            )
+            repo.save(default_lib)
+            logger.info("Default library created", name=default_lib.name)
+
     yield
+
+    # Cleanup database connections on shutdown
+    if settings.database_url and hasattr(app.state, "_close_db"):
+        app.state._close_db()
+        logger.info("Database connections closed")
 
 
 def create_app() -> FastAPI:

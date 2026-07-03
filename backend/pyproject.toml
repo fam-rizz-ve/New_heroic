@@ -11,6 +11,8 @@ dependencies = [
     "structlog>=24.0.0",
     "dependency-injector>=4.40.0",
     "pyyaml>=6.0",
+    "sqlalchemy>=2.0",
+    "aiosqlite>=0.20.0",
 ]
 
 [project.optional-dependencies]

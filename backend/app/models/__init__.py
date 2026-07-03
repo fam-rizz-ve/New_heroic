@@ -1,1 +1,1 @@
-"""Domain models."""
+"""SQLAlchemy ORM models."""

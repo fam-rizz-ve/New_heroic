@@ -15,6 +15,11 @@ class GameId:
         """Create a new unique game ID."""
         return cls(value=uuid4())
 
+    @classmethod
+    def from_str(cls, value: str) -> "GameId":
+        """Parse a GameId from a string."""
+        return cls(value=UUID(value))
+
 
 @dataclass(frozen=True)
 class LibraryId:
@@ -26,6 +31,11 @@ class LibraryId:
     def generate(cls) -> "LibraryId":
         """Create a new unique library ID."""
         return cls(value=uuid4())
+
+    @classmethod
+    def from_str(cls, value: str) -> "LibraryId":
+        """Parse a LibraryId from a string."""
+        return cls(value=UUID(value))
 
 
 @dataclass(frozen=True)
