@@ -6,6 +6,7 @@ import json
 import os
 import subprocess
 import time
+import urllib.parse
 from pathlib import Path
 from typing import Any
 
@@ -412,6 +413,61 @@ class GOGStore(StoreBase):
             f"redirect_uri={redirect_encoded}&"
             f"response_type=code"
         )
+
+    async def get_auth_url_for_callback(self, callback_url: str) -> str:
+        """Return GOG OAuth URL with custom callback redirect.
+
+        GOG accepts custom redirect URIs (used by Heroic too).
+        The callback URL will receive ?code=XXXX after login.
+
+        Args:
+            callback_url: The local callback URL.
+
+        Returns:
+            The full GOG OAuth URL with the callback embedded.
+        """
+        encoded = urllib.parse.quote(callback_url, safe="")
+        return (
+            f"{self.GOG_AUTH}/auth?"
+            f"client_id={self.CLIENT_ID}&"
+            f"redirect_uri={encoded}&"
+            f"response_type=code"
+        )
+
+    async def start_browser_auth(self) -> StoreCredentials:
+        """Start browser-based OAuth authentication for GOG.
+
+        GOG accepts localhost redirect URIs, so we use the CallbackServer
+        to capture the OAuth redirect and extract the auth code.
+
+        Returns:
+            StoreCredentials from successful authentication.
+
+        Raises:
+            TimeoutError: If the OAuth flow times out.
+            RuntimeError: If authentication fails.
+        """
+        from app.stores.callback_server import CallbackServer
+
+        self.logger.info("Starting GOG browser-based auth")
+        server = CallbackServer()
+        server.start()
+        try:
+            callback_url = f"http://127.0.0.1:{server.port}/callback"
+            auth_url = await self.get_auth_url_for_callback(callback_url)
+            self.logger.info(
+                "Opening GOG auth URL in browser",
+                port=server.port,
+            )
+            server.open_browser(auth_url)
+            code = await server.wait_for_code(timeout=120)
+            self.logger.info("GOG auth code captured from callback")
+            return await self.authenticate(code)
+        except TimeoutError:
+            self.logger.error("GOG auth timed out after 120s")
+            raise
+        finally:
+            server.stop()
 
     async def get_auth_instructions(self) -> str:
         """Return instructions for GOG OAuth Login.

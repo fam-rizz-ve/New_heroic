@@ -78,6 +78,61 @@ async def authenticate_store(
         )
 
 
+@router.post("/{store_name}/auth/browser", response_model=AuthResponse)
+async def browser_auth(
+    store_name: str,
+    manager: StoreManager = Depends(get_store_manager),
+) -> AuthResponse:
+    """Authenticate with a store via automatic browser-based OAuth.
+
+    Starts a local callback server, opens the browser to the OAuth URL,
+    waits for the redirect, and authenticates using the captured code.
+
+    This endpoint may take up to 120 seconds to respond while waiting
+    for the user to complete the OAuth flow in their browser.
+
+    Args:
+        store_name: The store name (e.g., "epic", "gog").
+
+    Returns:
+        AuthResponse with success status and optional username.
+
+    Raises:
+        HTTPException 404: If the store is not found.
+        HTTPException 401: If authentication fails.
+        HTTPException 408: If the authentication times out.
+    """
+    store = manager.get(store_name)
+    if store is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Store '{store_name}' not found",
+        )
+
+    try:
+        credentials = await store.start_browser_auth()
+        return AuthResponse(
+            success=True,
+            username=credentials.username,
+            message=f"Authenticated with {store.display_name}",
+        )
+    except TimeoutError as e:
+        raise HTTPException(
+            status_code=status.HTTP_408_REQUEST_TIMEOUT,
+            detail=str(e),
+        )
+    except NotImplementedError as e:
+        raise HTTPException(
+            status_code=status.HTTP_501_NOT_IMPLEMENTED,
+            detail=str(e),
+        )
+    except RuntimeError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=str(e),
+        )
+
+
 @router.get("/{store_name}/auth-url", response_model=AuthUrlResponse)
 async def get_store_auth_url(
     store_name: str,

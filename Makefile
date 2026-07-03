@@ -14,10 +14,10 @@ dev: ## Run both backend and frontend in dev mode
 	@$(MAKE) -j2 backend frontend
 
 backend: ## Start the FastAPI backend dev server
-	cd backend && uv run uvicorn app.main:app --reload --host 127.0.0.1 --port $(or $(BACKEND_PORT),1430)
+	cd backend && PATH=".venv/bin:$$PATH" uv run uvicorn app.main:app --reload --host 127.0.0.1 --port $(or $(BACKEND_PORT),1430)
 
-frontend: ## Start the Tauri dev server
-	cargo tauri dev
+frontend: ## Start the Tauri dev server (WEBKIT_DISABLE_COMPOSITING_MODE=1 fixes Wayland GBM blank window)
+	WEBKIT_DISABLE_COMPOSITING_MODE=1 cargo tauri dev
 
 lint: ## Run all linters
 	cd backend && uv run ruff check .

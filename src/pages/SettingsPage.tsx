@@ -67,6 +67,7 @@ export default function SettingsPage() {
   const [authMessage, setAuthMessage] = useState<{ store: string; msg: string; ok: boolean } | null>(null);
   const [syncing, setSyncing] = useState<string | null>(null);
   const [syncMessage, setSyncMessage] = useState<{ store: string; msg: string; ok: boolean } | null>(null);
+  const [autoLogging, setAutoLogging] = useState<string | null>(null);
 
   // ─── Wine Manager state ───
   const [wineTab, setWineTab] = useState<"available" | "installed">("available");
@@ -133,6 +134,32 @@ export default function SettingsPage() {
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Failed to get auth URL";
       setAuthMessage({ store: storeName, msg: `❌ ${msg}`, ok: false });
+    }
+  }
+
+  async function handleAutoLogin(storeName: string) {
+    setAutoLogging(storeName);
+    setAuthMessage(null);
+    try {
+      await api.browserAuth(storeName);
+      setAuthMessage({ store: storeName, msg: "✅ Authenticated!", ok: true });
+      setShowAuthInput((prev) => ({ ...prev, [storeName]: false }));
+      await loadStoreStatuses();
+    } catch (err) {
+      const msg = typeof err === 'object' && err !== null ? (err as any).message || String(err) : String(err);
+      const isTimeout = /timed? ?out|timeout|408/i.test(msg);
+      const isNotImpl = /does not support|not implemented|501/i.test(msg);
+      setAuthMessage({
+        store: storeName,
+        msg: isTimeout
+          ? "❌ Auth timed out after 120s. Please try again."
+          : isNotImpl
+            ? "❌ Auto login not available for this store. Use the manual login method."
+            : `❌ ${msg}`,
+        ok: false,
+      });
+    } finally {
+      setAutoLogging(null);
     }
   }
 
@@ -339,6 +366,27 @@ export default function SettingsPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                         </svg>
                         Login in Browser
+                      </button>
+
+                      {/* Auto Login button — opens browser automatically */}
+                      <button
+                        onClick={() => handleAutoLogin(storeName)}
+                        disabled={autoLogging === storeName}
+                        className="mb-3 flex w-full items-center justify-center gap-2 rounded-lg border border-emerald-700/40 bg-emerald-900/30 px-4 py-2 text-sm font-medium text-emerald-300 transition-all hover:bg-emerald-800/40 hover:border-emerald-600/60 disabled:opacity-50"
+                      >
+                        {autoLogging === storeName ? (
+                          <>
+                            <Spinner className="h-4 w-4" />
+                            Waiting for browser login...
+                          </>
+                        ) : (
+                          <>
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            Auto Login (Browser)
+                          </>
+                        )}
                       </button>
 
                       {/* Instructions + input (shown after clicking login) */}

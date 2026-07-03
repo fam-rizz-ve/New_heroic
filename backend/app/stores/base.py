@@ -156,3 +156,36 @@ class StoreBase(ABC):
             (e.g., what to do after opening the auth URL).
         """
         ...
+
+    async def get_auth_url_for_callback(self, callback_url: str) -> str:
+        """Return the OAuth login URL with a specific callback redirect.
+
+        Subclasses should override this if the OAuth provider supports
+        custom redirect URIs (e.g., Epic, GOG).
+
+        Args:
+            callback_url: The URL the OAuth provider should redirect to
+                         (e.g., http://127.0.0.1:{port}/callback).
+
+        Returns:
+            The full OAuth URL with the callback embedded.
+        """
+        # Default: return the standard auth URL (stores that don't support
+        # custom callbacks fall back to manual code entry).
+        return await self.get_auth_url()
+
+    async def start_browser_auth(self) -> StoreCredentials:
+        """Start browser-based OAuth authentication.
+
+        Default implementation raises NotImplementedError.
+        Override in subclasses that support automatic auth
+        (e.g., Epic uses Legendary's built-in auth, GOG uses a
+        local callback server).
+
+        Raises:
+            NotImplementedError: If auto auth is not supported.
+        """
+        raise NotImplementedError(
+            f"{self.__class__.__name__} does not support automatic browser "
+            f"authentication. Use the manual auth flow instead."
+        )

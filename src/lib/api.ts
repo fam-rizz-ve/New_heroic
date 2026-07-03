@@ -266,6 +266,12 @@ class ApiClient {
     });
   }
 
+  async browserAuth(storeName: string): Promise<{ message: string }> {
+    return this.request(`/api/stores/${storeName}/auth/browser`, {
+      method: "POST",
+    });
+  }
+
   async syncStore(storeName: string): Promise<{ message: string }> {
     return this.request(`/api/stores/${storeName}/sync`, { method: "POST" });
   }

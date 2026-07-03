@@ -37,13 +37,7 @@
   },
   "plugins": {
     "shell": {
-      "sidecar": true,
-      "scope": [
-        {
-          "name": "binaries/backend-server",
-          "sidecar": true
-        }
-      ]
+      "open": true
     }
   }
 }

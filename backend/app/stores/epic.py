@@ -149,6 +149,60 @@ class EpicStore(StoreBase):
         """
         return "https://www.epicgames.com/id/login?redirectUrl=https://www.epicgames.com/id/api/redirect"
 
+    async def start_browser_auth(self) -> StoreCredentials:
+        """Use Legendary's built-in browser-based OAuth authentication.
+
+        Legendary handles the entire OAuth flow: opens the browser with
+        its approved callback URL, starts a local server on port 5000,
+        waits for the OAuth redirect, and saves credentials.
+
+        Returns:
+            StoreCredentials indicating successful authentication.
+
+        Raises:
+            RuntimeError: If Legendary is not installed or auth fails.
+        """
+        self.logger.info("Starting Legendary browser-based auth")
+
+        if not await self.check_installed():
+            raise RuntimeError(
+                f"{self._cli_name} is not installed or not found on PATH. "
+                "Please install Legendary CLI first."
+            )
+
+        try:
+            # Legendary auth handles: browser open, callback server start,
+            # OAuth redirect capture, and credential storage — all interactively
+            result = await self._run_command(["auth"])
+
+            stdout = result.stdout
+            if "Saved credentials" in stdout or "Logged in" in stdout.lower():
+                self.logger.info("Epic Games authentication succeeded via browser")
+                username = "epic_user"
+                for line in stdout.split("\n"):
+                    if "logged in as" in line.lower() or "Logged in as" in line:
+                        parts = line.split("as")
+                        if len(parts) > 1:
+                            username = parts[-1].strip().rstrip(".")
+                            break
+                return StoreCredentials(
+                    token="stored_in_legendary_config",
+                    username=username,
+                )
+
+            self.logger.error("Epic Games browser auth failed")
+            raise RuntimeError(
+                f"Legendary auth failed: {result.stderr or 'Unknown error'}"
+            )
+
+        except RuntimeError:
+            raise  # Re-raise existing RuntimeErrors
+        except Exception as e:
+            self.logger.error(
+                "Unexpected error in Legendary auth", error=str(e)
+            )
+            raise RuntimeError(f"Legendary auth failed unexpectedly: {e}")
+
     async def get_auth_instructions(self) -> str:
         """Return instructions for Epic Games OAuth login.
 
