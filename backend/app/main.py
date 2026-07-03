@@ -15,6 +15,7 @@ from app.api.health import router as health_router
 from app.api.installer import router as installer_router
 from app.api.runners import router as runners_router
 from app.api.stores import router as stores_router
+from app.api.sync import router as sync_router
 from app.api.wine_manager import router as wine_manager_router
 from app.core.config import settings
 from app.core.container import ApplicationContainer
@@ -22,6 +23,8 @@ from app.core.domain.enums import StoreSource
 from app.core.domain.library import Library
 from app.core.domain.value_objects import LibraryId
 from app.core.logging import configure_logging
+from app.stores.manager import StoreManager
+from app.sync.manager import start_sync as start_background_sync
 
 logger = structlog.get_logger(__name__)
 
@@ -44,7 +47,6 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         logger.info("Database initialized", url=settings.database_url)
         app.state._close_db = _close_db
     else:
-        # In-memory mode: auto-create default library
         from app.api.dependencies import get_use_cases
 
         use_cases = get_use_cases()
@@ -58,6 +60,33 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             )
             repo.save(default_lib)
             logger.info("Default library created", name=default_lib.name)
+
+    # Common: ensure default library exists in both modes
+    from app.api.dependencies import get_use_cases
+
+    use_cases = get_use_cases()
+    repo = use_cases._library_repo
+    libraries = repo.list_all()
+    if not libraries:
+        default_lib = Library(
+            id=LibraryId.generate(),
+            name="Game Library",
+            store_source=StoreSource.LOCAL,
+        )
+        repo.save(default_lib)
+        logger.info("Default library created", name=default_lib.name)
+
+    # Auto-sync authenticated stores on startup
+    try:
+        store_manager = StoreManager.create_default()
+        for entry in store_manager.list_available():
+            store_name = entry["name"]
+            store = store_manager.get(store_name)
+            if store and await store.is_authenticated():
+                tid = start_background_sync(store_name)
+                logger.info("Auto-sync triggered on startup", store=store_name, task_id=tid)
+    except Exception as e:
+        logger.warning("Auto-sync failed on startup", error=str(e))
 
     yield
 
@@ -107,6 +136,7 @@ def create_app() -> FastAPI:
     app.include_router(wine_manager_router, prefix="/api", tags=["wine"])
     app.include_router(diagnostics_router, prefix="/api", tags=["diagnostics"])
     app.include_router(game_settings_router, prefix="/api", tags=["game_settings"])
+    app.include_router(sync_router, tags=["sync"])
 
     # Log startup
     logger.info(

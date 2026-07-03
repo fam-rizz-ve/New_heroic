@@ -101,9 +101,33 @@ export default function Dashboard({ onGameSelect }: DashboardProps) {
   async function handleSync(storeName: string) {
     setSyncing(storeName);
     try {
-      await api.syncStore(storeName);
-      setLastSyncTimes((prev) => ({ ...prev, [storeName]: new Date() }));
-      await loadGames();
+      // Start background sync
+      const { task_id } = await api.startBackgroundSync(storeName);
+
+      // Poll for completion
+      let completed = false;
+      let attempts = 0;
+      const maxAttempts = 300;
+
+      while (!completed && attempts < maxAttempts) {
+        await new Promise(r => setTimeout(r, 2000));
+        attempts++;
+
+        const status = await api.getSyncStatus(task_id);
+
+        if (status.status === "completed") {
+          setLastSyncTimes((prev) => ({ ...prev, [storeName]: new Date() }));
+          await loadGames();
+          completed = true;
+        } else if (status.status === "failed") {
+          setError(`Sync failed: ${status.error ?? "Unknown error"}`);
+          completed = true;
+        }
+      }
+
+      if (!completed) {
+        setError("Sync timed out after 10 minutes");
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Sync failed";
       setError(msg);

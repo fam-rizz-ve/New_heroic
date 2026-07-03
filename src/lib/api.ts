@@ -276,6 +276,20 @@ class ApiClient {
     return this.request(`/api/stores/${storeName}/sync`, { method: "POST" });
   }
 
+  async startBackgroundSync(storeName: string): Promise<{ task_id: string }> {
+    return this.request(`/api/sync/${storeName}`, { method: "POST" });
+  }
+
+  async getSyncStatus(taskId: string): Promise<{
+    status: string;
+    store: string;
+    progress?: { current?: number; total?: number };
+    result?: { imported?: number; errors?: string[]; total?: number };
+    error?: string;
+  }> {
+    return this.request(`/api/sync/${taskId}`);
+  }
+
   // Runners
   async listRunners(): Promise<RunnerInfo[]> {
     return this.request<RunnerInfo[]>("/api/runners");

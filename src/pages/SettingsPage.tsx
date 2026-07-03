@@ -187,8 +187,49 @@ export default function SettingsPage() {
     setSyncing(storeName);
     setSyncMessage(null);
     try {
-      await api.syncStore(storeName);
-      setSyncMessage({ store: storeName, msg: "✅ Games synced!", ok: true });
+      // Start background sync
+      const { task_id } = await api.startBackgroundSync(storeName);
+
+      // Poll for completion
+      let completed = false;
+      let attempts = 0;
+      const maxAttempts = 300; // 300 * 2s = 10 minutes max
+
+      while (!completed && attempts < maxAttempts) {
+        await new Promise(r => setTimeout(r, 2000));
+        attempts++;
+
+        const status = await api.getSyncStatus(task_id);
+
+        if (status.status === "completed") {
+          const imported = status.result?.imported ?? 0;
+          const errors = status.result?.errors ?? [];
+          const total = status.result?.total ?? 0;
+          const errMsg = errors.length > 0 ? ` (${errors.length} errors)` : "";
+          setSyncMessage({
+            store: storeName,
+            msg: `✅ Synced ${imported}/${total} games${errMsg}`,
+            ok: errors.length === 0
+          });
+          completed = true;
+        } else if (status.status === "failed") {
+          setSyncMessage({
+            store: storeName,
+            msg: `❌ Sync failed: ${status.error ?? "Unknown error"}`,
+            ok: false
+          });
+          completed = true;
+        }
+        // "running" → continue polling
+      }
+
+      if (!completed) {
+        setSyncMessage({
+          store: storeName,
+          msg: "❌ Sync timed out after 10 minutes",
+          ok: false
+        });
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Sync failed";
       setSyncMessage({ store: storeName, msg: `❌ ${msg}`, ok: false });

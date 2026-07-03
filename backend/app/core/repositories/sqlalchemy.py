@@ -93,12 +93,28 @@ class SQLAlchemyLibraryRepository:
             self._session.add(LibraryModel.from_domain(library))
         self._session.commit()
 
+    def _hydrate_games(self, library: DomainLibrary) -> DomainLibrary:
+        """Attach all games from the games table to the library.
+
+        The domain Library aggregate owns its games via the ``games`` dict,
+        but the SQL schema stores games in a separate ``games`` table without
+        a library FK (Heroic-style unified library). This helper loads all
+        games and attaches them so that the domain object behaves correctly.
+        """
+        result = self._session.execute(select(GameModel))
+        for model in result.scalars().all():
+            game = model.to_domain()
+            if game.id not in library.games:
+                library.games[game.id] = game
+        return library
+
     def get(self, library_id: LibraryId) -> DomainLibrary | None:
         """Get a library by its ID. Returns None if not found."""
         model = self._session.get(LibraryModel, str(library_id.value))
         if model is None:
             return None
-        return model.to_domain()
+        library = model.to_domain()
+        return self._hydrate_games(library)
 
     def delete(self, library_id: LibraryId) -> None:
         """Delete a library by its ID. Raises KeyError if not found."""
@@ -114,7 +130,7 @@ class SQLAlchemyLibraryRepository:
         """List all libraries."""
         result = self._session.execute(select(LibraryModel))
         models = result.scalars().all()
-        return [m.to_domain() for m in models]
+        return [self._hydrate_games(m.to_domain()) for m in models]
 
     def count(self) -> int:
         """Return the total number of libraries."""

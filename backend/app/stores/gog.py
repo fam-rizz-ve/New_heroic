@@ -291,7 +291,7 @@ class GOGStore(StoreBase):
                         data = detail_response.json()
                         # Guard: GOG API may return an empty list for some games
                         if not isinstance(data, dict):
-                            self.logger.warning(
+                            self.logger.debug(
                                 "GOG game details format unexpected",
                                 game_id=game_id,
                                 data_type=type(data).__name__,

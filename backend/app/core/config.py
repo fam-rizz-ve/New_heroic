@@ -67,7 +67,7 @@ class Settings(BaseSettings):
     ]
 
     # Database (future)
-    database_url: str = ""
+    database_url: str = "sqlite:///./data/games.db"
 
 
 settings = Settings()
