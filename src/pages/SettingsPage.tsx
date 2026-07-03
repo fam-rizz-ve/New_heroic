@@ -146,7 +146,7 @@ export default function SettingsPage() {
       setShowAuthInput((prev) => ({ ...prev, [storeName]: false }));
       await loadStoreStatuses();
     } catch (err) {
-      const msg = typeof err === 'object' && err !== null ? (err as any).message || String(err) : String(err);
+      const msg = typeof err === 'object' && err !== null ? String((err as Record<string, unknown>).message ?? "") || String(err) : String(err);
       const isTimeout = /timed? ?out|timeout|408/i.test(msg);
       const isNotImpl = /does not support|not implemented|501/i.test(msg);
       setAuthMessage({
