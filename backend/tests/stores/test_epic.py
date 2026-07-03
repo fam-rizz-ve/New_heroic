@@ -132,12 +132,12 @@ async def test_list_games(epic_store: EpicStore) -> None:
     mock_data = [
         {
             "app_name": "fortnite",
-            "title": "Fortnite",
+            "app_title": "Fortnite",
             "developer": "Epic Games",
         },
         {
             "app_name": "rocket_league",
-            "title": "Rocket League",
+            "app_title": "Rocket League",
             "developer": "Psyonix",
         },
     ]
