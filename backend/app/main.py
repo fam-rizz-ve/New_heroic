@@ -7,6 +7,7 @@ import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.diagnostics import router as diagnostics_router
 from app.api.game_settings import router as game_settings_router
 from app.api.games import router as games_router
 from app.api.games_v2 import router as library_v2_router
@@ -88,6 +89,7 @@ def create_app() -> FastAPI:
     app.include_router(runners_router, prefix="/api", tags=["runners"])
     app.include_router(stores_router, prefix="/api", tags=["stores"])
     app.include_router(wine_manager_router, prefix="/api", tags=["wine"])
+    app.include_router(diagnostics_router, prefix="/api", tags=["diagnostics"])
     app.include_router(game_settings_router, prefix="/api", tags=["game_settings"])
 
     # Log startup
