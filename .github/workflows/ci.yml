@@ -57,7 +57,7 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        run: cd backend && uv sync --frozen
+        run: cd backend && uv sync --frozen --all-extras
 
       - name: Ruff lint
         run: cd backend && uv run ruff check .
@@ -83,7 +83,7 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        run: cd backend && uv sync --frozen
+        run: cd backend && uv sync --frozen --all-extras
 
       - name: Domain + Core tests
         run: cd backend && uv run pytest tests/domain/ tests/core/ tests/repositories/ tests/use_cases/ -v --tb=short
@@ -103,7 +103,7 @@ jobs:
         with:
           enable-cache: true
       - name: Install dependencies
-        run: cd backend && uv sync --frozen
+        run: cd backend && uv sync --frozen --all-extras
       - name: Store tests
         run: cd backend && uv run pytest tests/stores/ -v --tb=short
 
@@ -122,7 +122,7 @@ jobs:
         with:
           enable-cache: true
       - name: Install dependencies
-        run: cd backend && uv sync --frozen
+        run: cd backend && uv sync --frozen --all-extras
       - name: Runner tests
         run: cd backend && uv run pytest tests/runners/ -v --tb=short
 
@@ -141,7 +141,7 @@ jobs:
         with:
           enable-cache: true
       - name: Install dependencies
-        run: cd backend && uv sync --frozen
+        run: cd backend && uv sync --frozen --all-extras
       - name: Installer tests
         run: cd backend && uv run pytest tests/installer/ -v --tb=short
 
@@ -160,7 +160,7 @@ jobs:
         with:
           enable-cache: true
       - name: Install dependencies
-        run: cd backend && uv sync --frozen
+        run: cd backend && uv sync --frozen --all-extras
       - name: API tests
         run: cd backend && uv run pytest tests/api/ -v --tb=short
 
