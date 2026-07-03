@@ -52,3 +52,6 @@ htmlcov/
 
 # Tauri
 package-lock.json
+
+# Database
+*.db
