@@ -22,7 +22,6 @@ env/
 
 # Rust / Tauri
 src-tauri/target/
-src-tauri/binaries/
 
 # IDE
 .idea/
@@ -52,4 +51,4 @@ htmlcov/
 *.cover
 
 # Tauri
-*.lock
+package-lock.json

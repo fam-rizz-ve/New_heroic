@@ -1,0 +1,4 @@
+#!/bin/sh
+# Placeholder for Python FastAPI sidecar binary
+# Replaced by PyInstaller bundle in production builds
+exit 0
