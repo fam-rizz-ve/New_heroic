@@ -153,8 +153,8 @@ class SteamStore(StoreBase):
         vdf_path = self._steam_dir / "steamapps" / "libraryfolders.vdf"
         if vdf_path.exists():
             try:
-                with open(str(vdf_path)) as f:
-                    data = vdf.load(f)
+                with open(str(vdf_path)) as vdf_file:
+                    data = vdf.load(vdf_file)
                 # libraryfolders.vdf format:
                 # "libraryfolders"
                 # {
