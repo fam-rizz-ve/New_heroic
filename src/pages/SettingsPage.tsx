@@ -15,11 +15,12 @@ const STORE_AUTH_INSTRUCTIONS: Record<string, string> = {
     "4. Paste the code below and click Connect.",
 };
 
-const STORE_NAMES = ["epic", "gog"] as const;
+const STORE_NAMES = ["epic", "gog", "steam"] as const;
 
 const STORE_DISPLAY: Record<string, { label: string; icon: string; desc: string }> = {
   epic: { label: "Epic Games", icon: "🎮", desc: "Connect your Epic Games account" },
   gog: { label: "GOG", icon: "📚", desc: "Connect your GOG account" },
+  steam: { label: "Steam", icon: "♨️", desc: "Import your local Steam library" },
 };
 
 // ─── Spinner component ───
@@ -418,7 +419,55 @@ export default function SettingsPage() {
                   </div>
 
                   {/* Auth controls */}
-                  {!isAuth ? (
+                  {storeName === "steam" ? (
+                    <div className="space-y-3">
+                      {/* Steam status */}
+                      <div
+                        className={`flex items-center gap-2 rounded-lg ${
+                          isAuth ? "bg-emerald-900/20" : "bg-zinc-800/30"
+                        } px-3 py-2`}
+                      >
+                        <span
+                          className={`flex h-2 w-2 rounded-full ${
+                            isAuth ? "bg-emerald-500" : "bg-zinc-600"
+                          }`}
+                        />
+                        <span
+                          className={`text-xs font-medium ${
+                            isAuth ? "text-emerald-400" : "text-zinc-500"
+                          }`}
+                        >
+                          {isAuth ? "Steam detected" : "Steam not found"}
+                        </span>
+                      </div>
+
+                      {/* Sync button */}
+                      <button
+                        onClick={() => handleSync(storeName)}
+                        disabled={syncing === storeName}
+                        className="flex w-full items-center justify-center gap-2 rounded-lg bg-zinc-800 px-4 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-700 disabled:opacity-50"
+                      >
+                        {syncing === storeName ? (
+                          <>
+                            <Spinner className="h-3.5 w-3.5" />
+                            Syncing Steam games...
+                          </>
+                        ) : (
+                          <>
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            Sync Steam Games
+                          </>
+                        )}
+                      </button>
+                      {syncMessage?.store === storeName && (
+                        <p className={`text-xs ${syncMessage.ok ? "text-emerald-400" : "text-red-400"}`}>
+                          {syncMessage.msg}
+                        </p>
+                      )}
+                    </div>
+                  ) : !isAuth ? (
                     <>
                       {/* Login in Browser button */}
                       <button

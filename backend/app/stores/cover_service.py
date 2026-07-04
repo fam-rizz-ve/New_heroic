@@ -3,6 +3,10 @@
 from __future__ import annotations
 
 import asyncio
+import json
+import os
+import urllib.parse
+from typing import cast
 
 import httpx
 import structlog
@@ -14,6 +18,9 @@ logger = structlog.get_logger(__name__)
 
 STEAM_SEARCH_URL = "https://store.steampowered.com/api/storesearch"
 STEAM_COVER_CDN = "https://steamcdn-a.akamaihd.net/steam/apps/{appid}/library_600x900.jpg"
+
+STEAMGRIDDB_SEARCH_URL = "https://www.steamgriddb.com/api/v2/search/autocomplete/{query}"
+STEAMGRIDDB_GRIDS_URL = "https://www.steamgriddb.com/api/v2/grids/game/{game_id}"
 
 
 async def search_steam_cover(game_title: str) -> str | None:
@@ -75,6 +82,194 @@ async def search_steam_cover(game_title: str) -> str | None:
     return None
 
 
+async def search_steamgriddb_cover(game_title: str) -> str | None:
+    """Search SteamGridDB API for a game cover.
+
+    Requires STEAMGRIDDB_API_KEY environment variable.
+    Returns the first 600x900 grid image URL, or None.
+
+    Early exit if no API key is configured.
+    """
+    api_key = os.environ.get("STEAMGRIDDB_API_KEY")
+    if not api_key:
+        logger.debug("SteamGridDB API key not set, skipping")
+        return None
+
+    if not game_title or not game_title.strip():
+        return None
+
+    headers = {"Authorization": f"Bearer {api_key}"}
+
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            # Step 1: Search for game
+            search_url = STEAMGRIDDB_SEARCH_URL.format(
+                query=urllib.parse.quote(game_title.strip()),
+            )
+            resp = await client.get(search_url, headers=headers)
+            if resp.status_code == 401:
+                logger.warning("SteamGridDB API key invalid")
+                return None
+            resp.raise_for_status()
+            data = resp.json()
+
+            # The success/data structure varies - check both
+            games_data = data.get("data", [])
+            if not games_data:
+                logger.debug("No SteamGridDB results", title=game_title)
+                return None
+
+            # Try exact title match first
+            title_lower = game_title.strip().lower()
+            best_match: dict[str, object] | None = None
+            for game in games_data:
+                if game.get("name", "").lower() == title_lower:
+                    best_match = game
+                    break
+
+            if not best_match:
+                best_match = games_data[0]  # fallback to first result
+
+            game_id = best_match.get("id")
+            if not game_id:
+                return None
+
+            # Step 2: Get grids for this game
+            grids_url = STEAMGRIDDB_GRIDS_URL.format(game_id=game_id)
+            grids_resp = await client.get(grids_url, headers=headers)
+            if not grids_resp.is_success:
+                return None
+
+            grids_data = grids_resp.json()
+            grids = grids_data.get("data", [])
+            if not grids:
+                return None
+
+            # Filter for 600x900 grids (preferred SteamGridDB format)
+            for grid in grids:
+                if grid.get("width") == 600 and grid.get("height") == 900:
+                    url = grid.get("url", "")
+                    if url:
+                        logger.info(
+                            "Found SteamGridDB cover",
+                            title=game_title,
+                            game_id=game_id,
+                        )
+                        return cast(str, url)
+
+            # Fallback to first grid
+            first = grids[0]
+            url = first.get("url", "")
+            if url:
+                logger.info(
+                    "Found SteamGridDB cover (approx)",
+                    title=game_title,
+                    game_id=game_id,
+                )
+                return cast(str, url)
+
+    except httpx.TimeoutException:
+        logger.warning("SteamGridDB search timed out", title=game_title)
+    except httpx.HTTPStatusError as e:
+        logger.warning(
+            "SteamGridDB HTTP error",
+            title=game_title,
+            status=e.response.status_code,
+        )
+    except httpx.RequestError as e:
+        logger.warning(
+            "SteamGridDB request failed",
+            title=game_title,
+            error=str(e),
+        )
+    except Exception as e:
+        logger.error(
+            "SteamGridDB search failed",
+            title=game_title,
+            error=str(e),
+        )
+
+    return None
+
+
+async def search_epic_cover(store_id: str) -> str | None:
+    """Extract cover art from Epic Games via Legendary info command.
+
+    Calls ``legendary info <store_id> --json`` and extracts
+    the keyImage with type 'DieselGameBoxTall'.
+
+    This requires the 'legendary' CLI to be installed and on PATH.
+    Returns the first matching image URL, or None on failure.
+    """
+    if not store_id:
+        return None
+
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            "legendary", "info", store_id, "--json",
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        stdout, stderr = await proc.communicate()
+
+        if proc.returncode != 0:
+            logger.warning(
+                "Legendary info failed",
+                store_id=store_id,
+                error=stderr.decode().strip(),
+            )
+            return None
+
+        data = json.loads(stdout.decode())
+
+        # Legendary info returns metadata.keyImages array
+        metadata = data.get("metadata", {}) or data.get("_metadata", {})
+        key_images = metadata.get("keyImages", [])
+
+        # Try to find the tall box art (600x900-ish)
+        preferred_types = [
+            "DieselGameBoxTall",
+            "DieselGameBox",
+            "OfferImageTall",
+            "Thumbnail",
+        ]
+        for img_type in preferred_types:
+            for img in key_images:
+                if img.get("type") == img_type:
+                    url = img.get("url", "")
+                    if url:
+                        logger.info(
+                            "Found Epic cover via legendary info",
+                            store_id=store_id,
+                            type=img_type,
+                        )
+                        return cast(str, url)
+
+        # Fallback: return any image URL
+        for img in key_images:
+            url = img.get("url", "")
+            if url:
+                logger.info("Found Epic cover (fallback)", store_id=store_id)
+                return cast(str, url)
+
+    except FileNotFoundError:
+        logger.warning("Legendary CLI not found, cannot get Epic cover")
+    except json.JSONDecodeError as e:
+        logger.warning(
+            "Failed to parse Legendary info JSON",
+            store_id=store_id,
+            error=str(e),
+        )
+    except Exception as e:
+        logger.error(
+            "Epic cover search failed",
+            store_id=store_id,
+            error=str(e),
+        )
+
+    return None
+
+
 async def refresh_game_cover(
     game_id: str,
     repo: GameRepository | None = None,
@@ -112,14 +307,30 @@ async def refresh_game_cover(
         logger.debug("Game already has cover, skipping", title=game.title)
         return False
 
+    # Multi-source cover art strategy
+    cover_url = None
+
+    # Source 1: Steam store search (catches cross-platform games)
     cover_url = await search_steam_cover(game.title)
+
+    # Source 2: SteamGridDB (fallback for anything else)
+    if not cover_url:
+        cover_url = await search_steamgriddb_cover(game.title)
+
+    # Note: search_epic_cover() requires store_id which is not available
+    # in the current domain model. Will be added in a future update.
+
     if cover_url:
         try:
             domain_game = repo.get(gid)
             if domain_game:
                 domain_game.set_cover_art(cover_url)
                 repo.save(domain_game)
-                logger.info("Cover updated successfully", title=game.title, game_id=game_id)
+                logger.info(
+                    "Cover updated successfully",
+                    title=game.title,
+                    game_id=game_id,
+                )
                 return True
         except Exception as e:
             logger.error("Failed to save cover", title=game.title, error=str(e))

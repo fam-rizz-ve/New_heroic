@@ -89,6 +89,14 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     except Exception as e:
         logger.warning("Auto-sync failed on startup", error=str(e))
 
+    # Explicit Steam auto-sync (the general loop above also handles this,
+    # but adding an explicit call makes the intent clear).
+    try:
+        tid = start_background_sync("steam")
+        logger.info("Auto-sync Steam started (explicit)", task_id=tid)
+    except Exception as e:
+        logger.warning("Auto-sync Steam failed", error=str(e))
+
     yield
 
     # Cleanup database connections on shutdown
