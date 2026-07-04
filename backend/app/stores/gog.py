@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 import subprocess
@@ -279,53 +280,84 @@ class GOGStore(StoreBase):
             owned_ids: list[int] = response.json().get("owned", [])
             self.logger.info("Found GOG games", count=len(owned_ids))
 
-            # Step 2: Get details for each game
-            games: list[StoreGame] = []
-            for game_id in owned_ids:
-                try:
-                    detail_response = await client.get(
-                        f"{self.GOG_EMBED}/account/gameDetails/{game_id}.json",
-                        timeout=10,
-                    )
-                    if detail_response.is_success:
-                        data = detail_response.json()
-                        # Guard: GOG API may return an empty list for some games
-                        if not isinstance(data, dict):
-                            self.logger.debug(
-                                "GOG game details format unexpected",
-                                game_id=game_id,
-                                data_type=type(data).__name__,
-                            )
-                            continue
+            # Step 2: Get details for each game in parallel
+            sem = asyncio.Semaphore(15)
 
-                        genres = [
-                            g["name"]
-                            for g in data.get("genres", []) if isinstance(g, dict)
-                        ]
-                        # GOG embeds use backgroundImage, not image
-                        image = data.get("image", "") or data.get("backgroundImage", "") or ""
-                        games.append(StoreGame(
-                            store_id=str(game_id),
-                            title=data.get("title", f"GOG Game {game_id}"),
-                            description=data.get("description", ""),
-                            cover_art_url=image,
-                            developer=data.get("developer", ""),
-                            publisher=data.get("publisher", ""),
-                            # GOG uses releaseTimestamp instead of releaseDate
-                            release_date=data.get("releaseDate") or data.get("releaseTimestamp"),
-                            genres=genres,
-                        ))
-                    else:
-                        self.logger.warning(
-                            "Failed to fetch GOG game details",
-                            game_id=game_id,
-                            status=detail_response.status_code,
+            async def _fetch_game_detail(
+                game_id: int,
+                client: httpx.AsyncClient,
+                sem: asyncio.Semaphore,
+            ) -> StoreGame | None:
+                """Fetch details for a single GOG game with concurrency control."""
+                async with sem:
+                    try:
+                        detail_response = await client.get(
+                            f"{self.GOG_EMBED}/account/gameDetails/{game_id}.json",
+                            timeout=10,
                         )
-                except httpx.RequestError as e:
+                        if detail_response.is_success:
+                            data = detail_response.json()
+                            # Guard: GOG API may return an empty list for some games
+                            if not isinstance(data, dict):
+                                self.logger.debug(
+                                    "GOG game details format unexpected",
+                                    game_id=game_id,
+                                    data_type=type(data).__name__,
+                                )
+                                return None
+
+                            genres = [
+                                g["name"]
+                                for g in data.get("genres", []) if isinstance(g, dict)
+                            ]
+                            # GOG embeds use backgroundImage, not image
+                            image = data.get("image", "") or data.get("backgroundImage", "") or ""
+                            return StoreGame(
+                                store_id=str(game_id),
+                                title=data.get("title", f"GOG Game {game_id}"),
+                                description=data.get("description", ""),
+                                cover_art_url=image,
+                                developer=data.get("developer", ""),
+                                publisher=data.get("publisher", ""),
+                                # GOG uses releaseTimestamp instead of releaseDate
+                                release_date=(
+                                    data.get("releaseDate") or data.get("releaseTimestamp")
+                                ),
+                                genres=genres,
+                            )
+                        else:
+                            self.logger.warning(
+                                "Failed to fetch GOG game details",
+                                game_id=game_id,
+                                status=detail_response.status_code,
+                            )
+                            return None
+                    except httpx.RequestError as e:
+                        self.logger.warning(
+                            "Request failed for GOG game",
+                            game_id=game_id,
+                            error=str(e),
+                        )
+                        return None
+
+            tasks = [_fetch_game_detail(game_id, client, sem) for game_id in owned_ids]
+            try:
+                results = await asyncio.gather(*tasks, return_exceptions=True)
+            except Exception as e:
+                self.logger.error(
+                    "Unexpected error gathering GOG game details",
+                    error=str(e),
+                )
+                results = []
+
+            games: list[StoreGame] = []
+            for result in results:
+                if isinstance(result, StoreGame):
+                    games.append(result)
+                elif isinstance(result, Exception):
                     self.logger.warning(
-                        "Request failed for GOG game",
-                        game_id=game_id,
-                        error=str(e),
+                        "Unexpected exception in game detail fetch",
+                        error=str(result),
                     )
 
             self.logger.info("GOG library parsed", count=len(games))
