@@ -4,13 +4,13 @@ from __future__ import annotations
 
 import asyncio
 import json
-import os
 import urllib.parse
 from typing import cast
 
 import httpx
 import structlog
 
+from app.core.config import settings
 from app.core.interfaces.repositories import GameRepository
 from app.core.use_cases.library import GameResult, LibraryUseCases
 
@@ -85,12 +85,12 @@ async def search_steam_cover(game_title: str) -> str | None:
 async def search_steamgriddb_cover(game_title: str) -> str | None:
     """Search SteamGridDB API for a game cover.
 
-    Requires STEAMGRIDDB_API_KEY environment variable.
+    Requires ``settings.steamgriddb_api_key`` (from .env).
     Returns the first 600x900 grid image URL, or None.
 
     Early exit if no API key is configured.
     """
-    api_key = os.environ.get("STEAMGRIDDB_API_KEY")
+    api_key = settings.steamgriddb_api_key
     if not api_key:
         logger.debug("SteamGridDB API key not set, skipping")
         return None

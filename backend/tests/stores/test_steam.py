@@ -119,6 +119,7 @@ async def test_list_games_success(steam_store: SteamStore) -> None:
 
     with (
         patch.object(steam_store, "_get_library_folders") as mock_folders,
+        patch("builtins.open", new_callable=MagicMock),
         patch("vdf.load") as mock_vdf_load,
     ):
         # Return a single library folder
@@ -154,6 +155,7 @@ async def test_list_games_invalid_acf(steam_store: SteamStore) -> None:
 
     with (
         patch.object(steam_store, "_get_library_folders") as mock_folders,
+        patch("builtins.open", new_callable=MagicMock),
         patch("vdf.load") as mock_vdf_load,
     ):
         lib_dir = Path("/fake/steam")
@@ -177,6 +179,7 @@ async def test_get_game_details_found(steam_store: SteamStore) -> None:
 
     with (
         patch.object(steam_store, "_get_library_folders") as mock_folders,
+        patch("builtins.open", new_callable=MagicMock),
         patch("vdf.load") as mock_vdf_load,
         patch.object(Path, "exists") as mock_exists,
     ):
@@ -244,6 +247,7 @@ async def test_get_library_folders_with_vdf(steam_store: SteamStore) -> None:
 
     with (
         patch.object(Path, "exists") as mock_exists,
+        patch("builtins.open", new_callable=MagicMock),
         patch("vdf.load") as mock_vdf_load,
     ):
         # Main steamapps dir, VDF file, and extra dirs all exist
@@ -266,7 +270,10 @@ async def test_parse_acf_valid(steam_store: SteamStore) -> None:
     """Test _parse_acf returns StoreGame for valid ACF data."""
     acf_path = Path("/fake/manifest.acf")
 
-    with patch("vdf.load") as mock_vdf_load:
+    with (
+        patch("builtins.open", new_callable=MagicMock),
+        patch("vdf.load") as mock_vdf_load,
+    ):
         mock_vdf_load.return_value = {
             "AppState": {
                 "appid": "123456",
@@ -286,7 +293,10 @@ async def test_parse_acf_invalid(steam_store: SteamStore) -> None:
     """Test _parse_acf returns None for invalid ACF content."""
     acf_path = Path("/fake/manifest.acf")
 
-    with patch("vdf.load") as mock_vdf_load:
+    with (
+        patch("builtins.open", new_callable=MagicMock),
+        patch("vdf.load") as mock_vdf_load,
+    ):
         mock_vdf_load.side_effect = Exception("Parse error")
         game = steam_store._parse_acf(acf_path)
         assert game is None
@@ -297,7 +307,10 @@ async def test_parse_acf_missing_name(steam_store: SteamStore) -> None:
     """Test _parse_acf returns None when ACF has empty name."""
     acf_path = Path("/fake/manifest.acf")
 
-    with patch("vdf.load") as mock_vdf_load:
+    with (
+        patch("builtins.open", new_callable=MagicMock),
+        patch("vdf.load") as mock_vdf_load,
+    ):
         mock_vdf_load.return_value = {
             "AppState": {"appid": "000000", "name": ""}
         }

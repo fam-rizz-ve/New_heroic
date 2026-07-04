@@ -153,7 +153,8 @@ class SteamStore(StoreBase):
         vdf_path = self._steam_dir / "steamapps" / "libraryfolders.vdf"
         if vdf_path.exists():
             try:
-                data = vdf.load(str(vdf_path))
+                with open(str(vdf_path)) as f:
+                    data = vdf.load(f)
                 # libraryfolders.vdf format:
                 # "libraryfolders"
                 # {
@@ -193,7 +194,8 @@ class SteamStore(StoreBase):
             is invalid or lacks required fields.
         """
         try:
-            data = vdf.load(str(acf_path))
+            with open(str(acf_path)) as f:
+                data = vdf.load(f)
             app_state = data.get("AppState", {})
 
             app_id = str(app_state.get("appid", "") or "")

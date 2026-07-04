@@ -14,6 +14,9 @@ IPC Architecture:
     - CORS must allow both origins for the health check to work in all environments
 """
 
+import base64
+
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -66,6 +69,20 @@ class Settings(BaseSettings):
         "http://127.0.0.1:1420",
         "tauri://localhost",
     ]
+
+    # SteamGridDB API key for auto-downloading cover art
+    # Loaded from STEAMGRIDDB_API_KEY env var; falls back to embedded key
+    steamgriddb_api_key: str = ""
+
+    @field_validator("steamgriddb_api_key", mode="after")
+    @classmethod
+    def _fill_steamgriddb_key(cls, v: str) -> str:
+        if v:
+            return v
+        # Embedded fallback key (base64-obfuscated to prevent casual scraping)
+        return base64.b64decode(
+            "OTZmNWY5NmRjMDAwYmMxNzY4MTFlZGE4MTc4YjRlNzM="
+        ).decode("ascii")
 
     # Database (future)
     database_url: str = "sqlite:///./data/games.db"
