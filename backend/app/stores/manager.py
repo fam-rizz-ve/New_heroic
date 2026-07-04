@@ -7,6 +7,7 @@ import structlog
 from app.stores.base import StoreBase
 from app.stores.epic import EpicStore
 from app.stores.gog import GOGStore
+from app.stores.steam import SteamStore
 
 
 class StoreManager:
@@ -66,5 +67,6 @@ class StoreManager:
         manager = cls()
         manager.register(EpicStore())
         manager.register(GOGStore())
+        manager.register(SteamStore())
         manager.logger.info("Default stores registered", count=len(manager._stores))
         return manager

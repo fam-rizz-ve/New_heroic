@@ -36,4 +36,4 @@ class TestStoreManager:
         manager = StoreManager.create_default()
         assert manager.get("epic") is not None
         assert manager.get("gog") is not None
-        assert len(manager.list_available()) == 2
+        assert len(manager.list_available()) == 3
