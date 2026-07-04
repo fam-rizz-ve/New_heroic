@@ -26,6 +26,7 @@ export default function GameCard({ game, onAction, onSelect }: GameCardProps) {
   return (
     <div
       className="group relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/60 transition-all duration-200 hover:border-emerald-700/40 hover:shadow-lg hover:shadow-emerald-900/10 hover:-translate-y-0.5 cursor-pointer"
+      style={{ contentVisibility: "auto", containIntrinsicSize: "340px" }}
       onClick={() => onSelect?.(game.id)}
     >
       {/* Cover art area */}
@@ -34,6 +35,7 @@ export default function GameCard({ game, onAction, onSelect }: GameCardProps) {
           <img
             src={game.cover_art_url}
             alt={game.title}
+            loading="lazy"
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (

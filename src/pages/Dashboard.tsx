@@ -1,6 +1,8 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { api, type GameResponse } from "@/lib/api";
 import GameCard from "@/components/GameCard";
+import { useColumns } from "@/hooks/useColumns";
 
 type FilterType = "all" | "installed" | "not_installed" | "epic" | "gog" | "local";
 
@@ -31,6 +33,22 @@ export default function Dashboard({ onGameSelect }: DashboardProps) {
   // Sync state from stores
   const [syncing, setSyncing] = useState<string | null>(null);
   const [lastSyncTimes, setLastSyncTimes] = useState<Record<string, Date | null>>({});
+
+  // Virtual scrolling
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const columns = useColumns(scrollRef);
+
+  const rowCount = useMemo(
+    () => Math.ceil(games.length / columns),
+    [games.length, columns]
+  );
+
+  const rowVirtualizer = useVirtualizer({
+    count: rowCount,
+    getScrollElement: () => scrollRef.current,
+    estimateSize: () => 340,
+    overscan: 3,
+  });
 
   const loadGames = useCallback(async () => {
     try {
@@ -265,7 +283,7 @@ export default function Dashboard({ onGameSelect }: DashboardProps) {
       </div>
 
       {/* Games grid */}
-      <div className="flex-1 overflow-y-auto p-6">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6">
         {error && (
           <div className="mb-4 rounded-xl border border-red-800/40 bg-red-950/30 p-3 text-sm text-red-300">
             {error}
@@ -373,15 +391,43 @@ export default function Dashboard({ onGameSelect }: DashboardProps) {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-            {games.map((game) => (
-              <GameCard
-                key={game.id}
-                game={game}
-                onAction={(action) => handleGameAction(game.id, action)}
-                onSelect={onGameSelect}
-              />
-            ))}
+          <div
+            style={{
+              height: `${rowVirtualizer.getTotalSize()}px`,
+              position: "relative",
+            }}
+          >
+            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+              const startIdx = virtualRow.index * columns;
+              const rowItems = games.slice(startIdx, startIdx + columns);
+              return (
+                <div
+                  key={virtualRow.key}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    transform: `translateY(${virtualRow.start}px)`,
+                  }}
+                  className="flex gap-4"
+                >
+                  {rowItems.map((game) => (
+                    <div
+                      key={game.id}
+                      className="flex-1 min-w-0"
+                      style={{ maxWidth: `calc(${100 / columns}% - ${(columns - 1) * 16 / columns}px)` }}
+                    >
+                      <GameCard
+                        game={game}
+                        onAction={(action) => handleGameAction(game.id, action)}
+                        onSelect={onGameSelect}
+                      />
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
