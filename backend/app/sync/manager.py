@@ -65,8 +65,18 @@ async def _do_sync(store_name: str, state: SyncState) -> None:
         from app.core.domain.library import DuplicateGameError
         from app.core.domain.value_objects import GameId, GameTitle
 
+        # Build set of (store, title_lower) for O(1) dedup across syncs
+        existing: set[tuple[str, str]] = set()
+        for g in library.games.values():
+            existing.add((g.store.value, g.title.value.lower()))
+
         for i, sg in enumerate(store_games):
             try:
+                # Skip if already exists (by store + title)
+                key = (store_name, sg.title.lower())
+                if key in existing:
+                    continue
+
                 title = GameTitle(sg.title)
                 domain_game = DomainGame(
                     id=GameId.generate(),
@@ -79,6 +89,7 @@ async def _do_sync(store_name: str, state: SyncState) -> None:
                 library.add_game(domain_game)
                 use_cases._game_repo.save(domain_game)
                 imported += 1
+                existing.add(key)
             except DuplicateGameError:
                 pass
             except Exception as e:
