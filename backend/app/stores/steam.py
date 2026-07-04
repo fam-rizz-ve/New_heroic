@@ -28,6 +28,14 @@ class SteamStore(StoreBase):
     _cli_name = ""
     logger = structlog.get_logger("app.stores.SteamStore")
 
+    # Steam app name prefixes for compatibility tools/runtimes (not games)
+    _STEAM_TOOL_PREFIXES = (
+        "Proton",
+        "Steam Linux Runtime",
+        "Steamworks Common Redistributables",
+        "Steam Runtime",
+    )
+
     # Common Steam installation paths on Linux
     _STEAM_PATHS = [
         Path.home() / ".steam" / "steam",
@@ -78,6 +86,7 @@ class SteamStore(StoreBase):
 
         games: list[StoreGame] = []
         library_folders = self._get_library_folders()
+        seen_app_ids: set[str] = set()
 
         for folder in library_folders:
             steamapps_dir = folder / "steamapps"
@@ -87,6 +96,9 @@ class SteamStore(StoreBase):
             for acf_file in sorted(steamapps_dir.glob("appmanifest_*.acf")):
                 game = self._parse_acf(acf_file)
                 if game:
+                    if game.store_id in seen_app_ids:
+                        continue
+                    seen_app_ids.add(game.store_id)
                     games.append(game)
 
         return games
@@ -207,6 +219,19 @@ class SteamStore(StoreBase):
                     path=str(acf_path),
                     app_id=app_id,
                     name=name,
+                )
+                return None
+
+            # Skip Steam compatibility tools and runtimes
+            name_stripped = name.strip()
+            if any(
+                name_stripped.startswith(prefix)
+                for prefix in self._STEAM_TOOL_PREFIXES
+            ):
+                self.logger.debug(
+                    "Skipping Steam compatibility tool",
+                    name=name,
+                    app_id=app_id,
                 )
                 return None
 

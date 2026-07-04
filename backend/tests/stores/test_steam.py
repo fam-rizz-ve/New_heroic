@@ -316,3 +316,114 @@ async def test_parse_acf_missing_name(steam_store: SteamStore) -> None:
         }
         game = steam_store._parse_acf(acf_path)
         assert game is None
+
+
+@pytest.mark.asyncio
+async def test_list_games_dedup_app_id(steam_store: SteamStore) -> None:
+    """Test list_games deduplicates games with same app_id across folders."""
+    steam_store._steam_dir = Path("/fake/steam")
+
+    # Two ACF files with the same app_id (simulates same game in two library folders)
+    mock_acf_1 = Path("/fake/steam/steamapps/appmanifest_123456.acf")
+
+    vdf_data = {
+        "AppState": {
+            "appid": "123456",
+            "name": "Duplicated Game",
+        }
+    }
+
+    with (
+        patch.object(steam_store, "_get_library_folders") as mock_folders,
+        patch("builtins.open", new_callable=MagicMock),
+        patch("vdf.load") as mock_vdf_load,
+    ):
+        # Two library folders, both containing the same app
+        lib_dir_1 = Path("/fake/steam")
+        lib_dir_2 = Path("/extra/steam/library")
+        mock_folders.return_value = [lib_dir_1, lib_dir_2]
+
+        # Mock steamapps dirs
+        steamapps_dir_1 = MagicMock(spec=Path)
+        steamapps_dir_1.exists.return_value = True
+        steamapps_dir_1.glob.return_value = [mock_acf_1]
+
+        steamapps_dir_2 = MagicMock(spec=Path)
+        steamapps_dir_2.exists.return_value = True
+        steamapps_dir_2.glob.return_value = [mock_acf_1]
+
+        def truediv_side_effect(key: str) -> MagicMock:
+            return steamapps_dir_1 if key == "steamapps" else steamapps_dir_2
+
+        with patch.object(Path, "__truediv__", side_effect=truediv_side_effect):
+            mock_vdf_load.return_value = vdf_data
+
+            games = await steam_store.list_games()
+
+            # Only 1 game despite 2 folders with same manifest
+            assert len(games) == 1
+            assert games[0].store_id == "123456"
+            assert games[0].title == "Duplicated Game"
+
+
+@pytest.mark.asyncio
+async def test_parse_acf_proton_filter(steam_store: SteamStore) -> None:
+    """Test _parse_acf returns None for Proton compatibility tool."""
+    acf_path = Path("/fake/proton.acf")
+
+    with (
+        patch("builtins.open", new_callable=MagicMock),
+        patch("vdf.load") as mock_vdf_load,
+    ):
+        mock_vdf_load.return_value = {
+            "AppState": {
+                "appid": "123456",
+                "name": "Proton 9.0",
+            }
+        }
+
+        game = steam_store._parse_acf(acf_path)
+        assert game is None
+
+
+@pytest.mark.asyncio
+async def test_parse_acf_linux_runtime_filter(steam_store: SteamStore) -> None:
+    """Test _parse_acf returns None for Steam Linux Runtime tool."""
+    acf_path = Path("/fake/runtime.acf")
+
+    with (
+        patch("builtins.open", new_callable=MagicMock),
+        patch("vdf.load") as mock_vdf_load,
+    ):
+        mock_vdf_load.return_value = {
+            "AppState": {
+                "appid": "987654",
+                "name": "Steam Linux Runtime - Soldier",
+            }
+        }
+
+        game = steam_store._parse_acf(acf_path)
+        assert game is None
+
+
+@pytest.mark.asyncio
+async def test_parse_acf_real_game(steam_store: SteamStore) -> None:
+    """Test _parse_acf returns StoreGame for a real game (not a tool)."""
+    acf_path = Path("/fake/game.acf")
+
+    with (
+        patch("builtins.open", new_callable=MagicMock),
+        patch("vdf.load") as mock_vdf_load,
+    ):
+        mock_vdf_load.return_value = {
+            "AppState": {
+                "appid": "730",
+                "name": "Counter-Strike 2",
+            }
+        }
+
+        game = steam_store._parse_acf(acf_path)
+        assert game is not None
+        assert game.store_id == "730"
+        assert game.title == "Counter-Strike 2"
+        assert "730" in game.cover_art_url
