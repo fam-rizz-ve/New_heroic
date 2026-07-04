@@ -309,6 +309,38 @@ async def close_game(
     )
 
 
+@router.post("/library/games/{game_id}/open-folder")
+async def open_game_folder(game_id: str) -> dict[str, str]:
+    """Open the game's install folder in the system file manager."""
+    try:
+        gid = GameId.from_str(game_id)
+    except (ValueError, TypeError):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid game ID format",
+        )
+
+    use_cases = get_use_cases()
+    game = use_cases.get_game(gid)
+    if game is None:
+        raise HTTPException(status_code=404, detail="Game not found")
+    if not game.install_path:
+        raise HTTPException(status_code=400, detail="Game is not installed")
+
+    import os
+    import subprocess
+
+    path = game.install_path
+    if os.path.isdir(path):
+        subprocess.Popen(["xdg-open", path])
+    else:
+        parent = os.path.dirname(path)
+        if parent:
+            subprocess.Popen(["xdg-open", parent])
+
+    return {"status": "ok", "path": path}
+
+
 def _game_result_to_response(result: object) -> GameResponse:
     """Convert a GameResult or similar result to a GameResponse.
 

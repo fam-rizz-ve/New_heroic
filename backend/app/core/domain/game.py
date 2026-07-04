@@ -10,9 +10,11 @@ from app.core.domain.enums import GameStatus, RunnerType, StoreSource
 from app.core.domain.events import (
     DomainEvent,
     GameClosed,
+    GameFavorited,
     GameInstallationStarted,
     GameInstalled,
     GameLaunched,
+    GameUnfavorited,
     GameUninstalled,
 )
 from app.core.domain.value_objects import ExecutablePath, GameId, GameTitle, InstallPath
@@ -44,6 +46,7 @@ class Game:
     executable_path: ExecutablePath | None = None
     last_played: datetime | None = None
     total_play_time_seconds: int = 0
+    is_favorite: bool = False
     created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     updated_at: datetime = field(default_factory=lambda: datetime.now(UTC))
 
@@ -159,6 +162,32 @@ class Game:
                 title=self.title.value,
             )
         )
+
+    def set_cover_art(self, url: str) -> None:
+        """Update the game's cover art URL."""
+        self.cover_art_url = url
+        self.updated_at = datetime.now(UTC)
+
+    def toggle_favorite(self) -> None:
+        """Toggle the favorite status of the game."""
+        self.is_favorite = not self.is_favorite
+        self.updated_at = datetime.now(UTC)
+        if self.is_favorite:
+            self._events.append(
+                GameFavorited(
+                    event_id=uuid4(),
+                    game_id=self.id.value,
+                    title=self.title.value,
+                )
+            )
+        else:
+            self._events.append(
+                GameUnfavorited(
+                    event_id=uuid4(),
+                    game_id=self.id.value,
+                    title=self.title.value,
+                )
+            )
 
     def mark_error(self) -> None:
         """Mark the game as being in an error state."""

@@ -35,6 +35,7 @@ class GameResponse(BaseModel):
     executable_path: str | None = None
     last_played: datetime | None = None
     total_play_time_seconds: int = 0
+    is_favorite: bool = False
     created_at: datetime
     updated_at: datetime
 

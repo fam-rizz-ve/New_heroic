@@ -167,3 +167,28 @@ class TestGameError:
         game.start_installation()
         game.mark_error()
         assert game.status == GameStatus.ERROR
+
+
+class TestGameFavorites:
+    """Tests for game favorite toggling."""
+
+    def test_starts_not_favorite(self, game: Game) -> None:
+        """A new game should not be favorited by default."""
+        assert game.is_favorite is False
+
+    def test_toggle_favorite(self, game: Game) -> None:
+        """Toggling favorite should set is_favorite to True."""
+        game.toggle_favorite()
+        assert game.is_favorite is True
+
+    def test_toggle_favorite_twice(self, game: Game) -> None:
+        """Toggling favorite twice should return to False."""
+        game.toggle_favorite()
+        game.toggle_favorite()
+        assert game.is_favorite is False
+
+    def test_toggle_favorite_updates_timestamp(self, game: Game) -> None:
+        """Toggling favorite should update the updated_at timestamp."""
+        old = game.updated_at
+        game.toggle_favorite()
+        assert game.updated_at >= old

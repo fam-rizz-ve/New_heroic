@@ -54,6 +54,7 @@ def _game_result_to_response(result: GameResult) -> GameResponse:
             else None
         ),
         total_play_time_seconds=result.total_play_time_seconds,
+        is_favorite=result.is_favorite,
         created_at=datetime.fromisoformat(result.created_at),
         updated_at=datetime.fromisoformat(result.updated_at),
     )
@@ -64,10 +65,13 @@ async def list_games(
     store: str | None = Query(None, description="Filter by store source"),
     status: str | None = Query(None, description="Filter by game status"),
     search: str | None = Query(None, description="Search by title"),
+    favorite: bool | None = Query(None, description="Filter by favorite status"),
     use_cases: LibraryUseCases = Depends(get_use_cases),
 ) -> list[GameResponse]:
     """List all games with optional filters (heroic-style unified library)."""
-    results = use_cases.list_all_games(store=store, status=status, search=search)
+    results = use_cases.list_all_games(
+        store=store, status=status, search=search, favorite=favorite
+    )
     return [_game_result_to_response(r) for r in results]
 
 
@@ -131,6 +135,20 @@ async def get_game(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Game '{game_id}' not found",
         )
+    return _game_result_to_response(result)
+
+
+@router.post("/library/games/{game_id}/favorite", response_model=GameResponse)
+async def toggle_favorite(
+    game_id: str,
+    use_cases: LibraryUseCases = Depends(get_use_cases),
+) -> GameResponse:
+    """Toggle the favorite status of a game."""
+    gid = _parse_game_id(game_id)
+    try:
+        result = use_cases.toggle_favorite(gid)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     return _game_result_to_response(result)
 
 

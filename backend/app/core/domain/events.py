@@ -69,3 +69,19 @@ class GameClosed(DomainEvent):
 
     game_id: UUID
     title: str
+
+
+@dataclass(frozen=True, kw_only=True)
+class GameFavorited(DomainEvent):
+    """Emitted when a game is favorited."""
+
+    game_id: UUID
+    title: str
+
+
+@dataclass(frozen=True, kw_only=True)
+class GameUnfavorited(DomainEvent):
+    """Emitted when a game is unfavorited."""
+
+    game_id: UUID
+    title: str

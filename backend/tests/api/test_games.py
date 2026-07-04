@@ -294,7 +294,7 @@ class TestGameResponseStructure:
             "id", "title", "store", "runner", "status",
             "description", "cover_art_url", "install_path",
             "executable_path", "last_played", "total_play_time_seconds",
-            "created_at", "updated_at",
+            "is_favorite", "created_at", "updated_at",
         }
         assert set(data.keys()) == expected_fields
 

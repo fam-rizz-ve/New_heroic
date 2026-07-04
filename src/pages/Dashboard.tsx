@@ -2,9 +2,10 @@ import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { api, type GameResponse } from "@/lib/api";
 import GameCard from "@/components/GameCard";
+import GameContextMenu from "@/components/GameContextMenu";
 import { useColumns } from "@/hooks/useColumns";
 
-type FilterType = "all" | "installed" | "not_installed" | "epic" | "gog" | "local";
+type FilterType = "all" | "installed" | "not_installed" | "epic" | "gog" | "local" | "steam" | "favorites";
 
 const FILTERS: { key: FilterType; label: string }[] = [
   { key: "all", label: "All" },
@@ -13,6 +14,8 @@ const FILTERS: { key: FilterType; label: string }[] = [
   { key: "epic", label: "Epic" },
   { key: "gog", label: "GOG" },
   { key: "local", label: "Local" },
+  { key: "steam", label: "Steam" },
+  { key: "favorites", label: "Favorites" },
 ];
 
 interface DashboardProps {
@@ -29,6 +32,9 @@ export default function Dashboard({ onGameSelect }: DashboardProps) {
   const [newGameTitle, setNewGameTitle] = useState("");
   const [newGameStore, setNewGameStore] = useState("local");
   const [newGameRunner, setNewGameRunner] = useState("native");
+
+  // Context menu
+  const [contextMenu, setContextMenu] = useState<{ gameId: string; x: number; y: number } | null>(null);
 
   // Sync state from stores
   const [syncing, setSyncing] = useState<string | null>(null);
@@ -64,6 +70,8 @@ export default function Dashboard({ onGameSelect }: DashboardProps) {
         );
       } else if (activeFilter === "not_installed") {
         filtered = data.filter((g) => g.status === "not_installed");
+      } else if (activeFilter === "favorites") {
+        filtered = data.filter((g) => g.is_favorite);
       } else if (activeFilter !== "all") {
         filtered = data.filter((g) => g.store === activeFilter);
       }
@@ -112,6 +120,16 @@ export default function Dashboard({ onGameSelect }: DashboardProps) {
       await loadGames();
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
+      setError(msg);
+    }
+  }
+
+  async function handleToggleFavorite(gameId: string) {
+    try {
+      await api.toggleFavorite(gameId);
+      await loadGames();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed to toggle favorite";
       setError(msg);
     }
   }
@@ -283,7 +301,7 @@ export default function Dashboard({ onGameSelect }: DashboardProps) {
       </div>
 
       {/* Games grid */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6" onScroll={() => setContextMenu(null)}>
         {error && (
           <div className="mb-4 rounded-xl border border-red-800/40 bg-red-950/30 p-3 text-sm text-red-300">
             {error}
@@ -422,6 +440,7 @@ export default function Dashboard({ onGameSelect }: DashboardProps) {
                         game={game}
                         onAction={(action) => handleGameAction(game.id, action)}
                         onSelect={onGameSelect}
+                        onContextMenu={(gameId, x, y) => setContextMenu({ gameId, x, y })}
                       />
                     </div>
                   ))}
@@ -430,6 +449,31 @@ export default function Dashboard({ onGameSelect }: DashboardProps) {
             })}
           </div>
         )}
+
+        {contextMenu && (() => {
+          const game = games.find(g => g.id === contextMenu.gameId);
+          if (!game) return null;
+          return (
+            <GameContextMenu
+              game={game}
+              x={contextMenu.x}
+              y={contextMenu.y}
+              onClose={() => setContextMenu(null)}
+              onPlay={(id) => { setContextMenu(null); handleGameAction(id, "launch"); }}
+              onInstall={(id) => { setContextMenu(null); handleGameAction(id, "install"); }}
+              onSettings={(id) => { setContextMenu(null); onGameSelect?.(id); }}
+              onToggleFavorite={(id) => { setContextMenu(null); handleToggleFavorite(id); }}
+              onRemove={(id) => { setContextMenu(null); handleGameAction(id, "uninstall"); }}
+              onOpenFolder={(id) => {
+                setContextMenu(null);
+                api.openGameFolder(id).catch((err) => {
+                  const msg = err instanceof Error ? err.message : "Failed to open folder";
+                  setError(msg);
+                });
+              }}
+            />
+          );
+        })()}
       </div>
     </div>
   );

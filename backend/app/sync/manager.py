@@ -105,6 +105,19 @@ async def _do_sync(store_name: str, state: SyncState) -> None:
 
         use_cases._library_repo.save(library)
 
+        # After sync, try to fetch covers for any games that lack them
+        try:
+            from app.stores.cover_service import refresh_missing_covers
+
+            cover_result = await refresh_missing_covers()
+            if cover_result["refreshed"] > 0:
+                logger.info(
+                    "Auto-refreshed missing covers after sync",
+                    count=cover_result["refreshed"],
+                )
+        except Exception as e:
+            logger.warning("Cover refresh after sync failed", error=str(e))
+
         state.status = "completed"
         state.result = {
             "imported": imported,

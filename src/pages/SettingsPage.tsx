@@ -80,6 +80,10 @@ export default function SettingsPage() {
   const [wineProgress, setWineProgress] = useState<WineProgressResponse | null>(null);
   const winePollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // ─── Cover refresh state ───
+  const [refreshingCovers, setRefreshingCovers] = useState(false);
+  const [coversProgress, setCoversProgress] = useState<string | null>(null);
+
   // ─── Runners state ───
   const [runners, setRunners] = useState<RunnerInfo[]>([]);
   const [runnersLoading, setRunnersLoading] = useState(true);
@@ -338,6 +342,24 @@ export default function SettingsPage() {
       // Silently fail
     } finally {
       setDetecting(false);
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  //  Cover Methods
+  // ══════════════════════════════════════════════════════════════
+
+  async function handleRefreshCovers() {
+    setRefreshingCovers(true);
+    setCoversProgress(null);
+    try {
+      const result = await api.refreshAllCovers();
+      setCoversProgress(`Found ${result.refreshed} covers, ${result.failed} failed`);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed";
+      setCoversProgress(`Error: ${msg}`);
+    } finally {
+      setRefreshingCovers(false);
     }
   }
 
@@ -682,6 +704,27 @@ export default function SettingsPage() {
             <p className="mt-3 text-xs text-zinc-600">
               Version 0.1.0 — GPLv3 License
             </p>
+
+            {/* Refresh Covers */}
+            <div className="mt-5 border-t border-zinc-800/50 pt-4">
+              <button
+                onClick={handleRefreshCovers}
+                disabled={refreshingCovers}
+                className="rounded-lg bg-zinc-800 px-4 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-700 disabled:opacity-50"
+              >
+                {refreshingCovers ? (
+                  <span className="flex items-center gap-2">
+                    <Spinner className="h-3.5 w-3.5" />
+                    Refreshing Covers...
+                  </span>
+                ) : (
+                  "Refresh Missing Covers"
+                )}
+              </button>
+              {coversProgress && (
+                <p className="mt-2 text-xs text-zinc-500">{coversProgress}</p>
+              )}
+            </div>
           </div>
         </section>
       </div>

@@ -6,6 +6,7 @@ is configured, falling back to in-memory repositories for development.
 
 from __future__ import annotations
 
+from app.core.interfaces.repositories import GameRepository
 from app.core.use_cases.library import LibraryUseCases
 
 _use_cases: LibraryUseCases | None = None
@@ -45,3 +46,8 @@ def get_use_cases() -> LibraryUseCases:
                 library_repo=InMemoryLibraryRepository(),
             )
     return _use_cases
+
+
+def get_game_repo() -> GameRepository:
+    """Get the game repository singleton."""
+    return get_use_cases().game_repo

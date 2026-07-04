@@ -22,6 +22,7 @@ export interface GameResponse {
   executable_path: string | null;
   last_played: string | null;
   total_play_time_seconds: number;
+  is_favorite: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -241,6 +242,10 @@ class ApiClient {
     return this.request(`/api/library/games/${gameId}/close`, { method: "POST" });
   }
 
+  async toggleFavorite(gameId: string): Promise<GameResponse> {
+    return this.request<GameResponse>(`/api/library/games/${gameId}/favorite`, { method: "POST" });
+  }
+
   // Stores
   async listStores(): Promise<StoreInfo[]> {
     return this.request<StoreInfo[]>("/api/stores");
@@ -342,6 +347,20 @@ class ApiClient {
       method: "PUT",
       body: JSON.stringify(settings),
     });
+  }
+
+  // Open Game Folder
+  async openGameFolder(gameId: string): Promise<{ status: string; path: string }> {
+    return this.request(`/api/library/games/${gameId}/open-folder`, { method: "POST" });
+  }
+
+  // Cover Art
+  async refreshAllCovers(): Promise<{ refreshed: number; failed: number; total_checked: number }> {
+    return this.request("/api/covers/refresh-all", { method: "POST" });
+  }
+
+  async refreshGameCover(gameId: string): Promise<{ game_id: string; title: string; cover_art_url: string | null; updated: boolean }> {
+    return this.request(`/api/covers/games/${gameId}/refresh`, { method: "POST" });
   }
 }
 

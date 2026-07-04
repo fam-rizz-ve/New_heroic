@@ -41,6 +41,7 @@ class GameResult:
     executable_path: str | None
     last_played: str | None
     total_play_time_seconds: int
+    is_favorite: bool
     created_at: str  # ISO format
     updated_at: str  # ISO format
 
@@ -55,6 +56,11 @@ class LibraryUseCases:
     ) -> None:
         self._game_repo = game_repo
         self._library_repo = library_repo
+
+    @property
+    def game_repo(self) -> GameRepository:
+        """Get the game repository."""
+        return self._game_repo
 
     def add_game_to_library(
         self, library_id: LibraryId, request: AddGameRequest
@@ -158,6 +164,7 @@ class LibraryUseCases:
         store: str | None = None,
         status: str | None = None,
         search: str | None = None,
+        favorite: bool | None = None,
     ) -> list[GameResult]:
         """List all games across all libraries with optional filters."""
         all_games = self._game_repo.list_all()
@@ -166,11 +173,22 @@ class LibraryUseCases:
             all_games = [g for g in all_games if g.store.value == store]
         if status:
             all_games = [g for g in all_games if g.status.value == status]
+        if favorite is not None:
+            all_games = [g for g in all_games if g.is_favorite == favorite]
         if search:
             query = search.lower()
             all_games = [g for g in all_games if query in g.title.value.lower()]
 
         return [_game_to_result(g) for g in all_games]
+
+    def toggle_favorite(self, game_id: GameId) -> GameResult:
+        """Toggle the favorite status of a game."""
+        game = self._game_repo.get(game_id)
+        if game is None:
+            raise ValueError(f"Game with id '{game_id.value}' not found")
+        game.toggle_favorite()
+        self._game_repo.save(game)
+        return _game_to_result(game)
 
     def list_library_games(
         self, library_id: LibraryId
@@ -202,6 +220,7 @@ def _game_to_result(game: Game) -> GameResult:
         if game.last_played
         else None,
         total_play_time_seconds=game.total_play_time_seconds,
+        is_favorite=game.is_favorite,
         created_at=game.created_at.isoformat(),
         updated_at=game.updated_at.isoformat(),
     )
