@@ -47,6 +47,7 @@ class GameModel(Base):
     total_play_time_seconds: Mapped[int] = mapped_column(
         Integer, default=0, nullable=False
     )
+    is_favorite: Mapped[bool] = mapped_column(default=False, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
 
@@ -68,6 +69,7 @@ class GameModel(Base):
             else None,
             last_played=self.last_played,
             total_play_time_seconds=self.total_play_time_seconds,
+            is_favorite=self.is_favorite,
             created_at=self.created_at,
             updated_at=self.updated_at,
         )
@@ -91,6 +93,7 @@ class GameModel(Base):
             else None,
             last_played=game.last_played,
             total_play_time_seconds=game.total_play_time_seconds,
+            is_favorite=game.is_favorite,
             created_at=game.created_at,
             updated_at=game.updated_at,
         )
@@ -111,4 +114,5 @@ class GameModel(Base):
         )
         self.last_played = game.last_played
         self.total_play_time_seconds = game.total_play_time_seconds
+        self.is_favorite = game.is_favorite
         self.updated_at = game.updated_at
