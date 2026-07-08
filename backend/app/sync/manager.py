@@ -59,6 +59,30 @@ def _cleanup_steam_tools(use_cases: Any, library: Any) -> int:
     return removed
 
 
+def _cleanup_duplicates(use_cases: Any, library: Any) -> int:
+    """Remove duplicate games (same store + title) from library.
+
+    Keeps the first occurrence and removes all subsequent duplicates.
+    Returns the number of duplicates removed.
+    """
+    seen: dict[tuple[str, str], object] = {}
+    removed = 0
+
+    for domain_game in list(use_cases._game_repo.list_all()):
+        key = (domain_game.store.value, domain_game.title.value.lower())
+        if key in seen:
+            try:
+                library.remove_game(domain_game.id)
+                use_cases._game_repo.delete(domain_game.id)
+                removed += 1
+            except Exception:
+                pass
+        else:
+            seen[key] = domain_game.id
+
+    return removed
+
+
 async def _do_sync(store_name: str, state: SyncState) -> None:
     """Run the actual sync in background."""
     logger.info("Background sync started", store=store_name)
@@ -144,6 +168,17 @@ async def _do_sync(store_name: str, state: SyncState) -> None:
                     "Removed Steam tool entries from library",
                     count=cleaned,
                 )
+
+        # Post-sync: clean up duplicate games (same store + title) that may
+        # have been imported in previous syncs before the dedup fix.
+        # This runs for ALL stores, not just Steam.
+        dupes_removed = _cleanup_duplicates(use_cases, library)
+        if dupes_removed > 0:
+            logger.info(
+                "Removed duplicate games from library",
+                store=store_name,
+                removed=dupes_removed,
+            )
 
         # After sync, try to fetch covers for any games that lack them
         try:
