@@ -14,6 +14,15 @@ import vdf
 
 from app.stores.base import StoreBase, StoreCredentials, StoreGame
 
+# Steam app name prefixes for compatibility tools/runtimes (not games).
+# Module-level constant so external consumers can import it directly.
+STEAM_TOOL_PREFIXES: tuple[str, ...] = (
+    "Proton",
+    "Steam Linux Runtime",
+    "Steamworks Common Redistributables",
+    "Steam Runtime",
+)
+
 
 class SteamStore(StoreBase):
     """Steam game library import (read-only, no install/launch).
@@ -29,12 +38,7 @@ class SteamStore(StoreBase):
     logger = structlog.get_logger("app.stores.SteamStore")
 
     # Steam app name prefixes for compatibility tools/runtimes (not games)
-    _STEAM_TOOL_PREFIXES = (
-        "Proton",
-        "Steam Linux Runtime",
-        "Steamworks Common Redistributables",
-        "Steam Runtime",
-    )
+    STEAM_TOOL_PREFIXES = STEAM_TOOL_PREFIXES
 
     # Common Steam installation paths on Linux
     _STEAM_PATHS = [
@@ -65,9 +69,7 @@ class SteamStore(StoreBase):
 
     async def authenticate(self, code: str) -> StoreCredentials:
         """Not supported — Steam import is local-only."""
-        raise NotImplementedError(
-            "Steam import is read-only and does not require authentication."
-        )
+        raise NotImplementedError("Steam import is read-only and does not require authentication.")
 
     async def list_games(self) -> list[StoreGame]:
         """List all games in the local Steam library.
@@ -129,9 +131,7 @@ class SteamStore(StoreBase):
                 if game:
                     return game
 
-        raise RuntimeError(
-            f"Steam game with app ID '{store_id}' not found in any library folder"
-        )
+        raise RuntimeError(f"Steam game with app ID '{store_id}' not found in any library folder")
 
     async def install_game(self, store_id: str, install_path: str) -> None:
         """Not supported — Steam import is read-only."""
@@ -224,10 +224,7 @@ class SteamStore(StoreBase):
 
             # Skip Steam compatibility tools and runtimes
             name_stripped = name.strip()
-            if any(
-                name_stripped.startswith(prefix)
-                for prefix in self._STEAM_TOOL_PREFIXES
-            ):
+            if any(name_stripped.startswith(prefix) for prefix in self.STEAM_TOOL_PREFIXES):
                 self.logger.debug(
                     "Skipping Steam compatibility tool",
                     name=name,
@@ -236,8 +233,7 @@ class SteamStore(StoreBase):
                 return None
 
             cover_art_url = (
-                f"https://steamcdn-a.akamaihd.net/steam/apps/"
-                f"{app_id}/library_600x900.jpg"
+                f"https://steamcdn-a.akamaihd.net/steam/apps/{app_id}/library_600x900.jpg"
             )
 
             return StoreGame(

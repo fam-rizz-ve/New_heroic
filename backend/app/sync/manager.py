@@ -29,6 +29,36 @@ class SyncState:
 _tasks: dict[str, SyncState] = {}
 
 
+def _cleanup_steam_tools(use_cases: Any, library: Any) -> int:
+    """Remove Steam tool entries (Proton, Runtime, etc.) from the library.
+
+    These may have been imported in previous syncs before the tool name
+    filter was added to SteamStore.list_games(). After removal the library
+    and game repo are both updated.
+
+    Returns:
+        Number of tool entries removed.
+    """
+    from app.stores.steam import STEAM_TOOL_PREFIXES
+
+    removed = 0
+    # Use game_repo.list_all() which is the authoritative store (library may
+    # have been synced separately). Convert to list for safe iteration during
+    # mutation.
+    for domain_game in list(use_cases._game_repo.list_all()):
+        if domain_game.store.value != "steam":
+            continue
+        title = domain_game.title.value.strip()
+        if title.startswith(STEAM_TOOL_PREFIXES):
+            try:
+                library.remove_game(domain_game.id)
+                use_cases._game_repo.delete(domain_game.id)
+                removed += 1
+            except Exception:
+                pass
+    return removed
+
+
 async def _do_sync(store_name: str, state: SyncState) -> None:
     """Run the actual sync in background."""
     logger.info("Background sync started", store=store_name)
@@ -104,6 +134,16 @@ async def _do_sync(store_name: str, state: SyncState) -> None:
                 await asyncio.sleep(0)
 
         use_cases._library_repo.save(library)
+
+        # Post-sync: clean up Steam tools (Proton, Runtime, etc.) that may
+        # have been imported in previous syncs before the filter was added.
+        if store_name == "steam":
+            cleaned = _cleanup_steam_tools(use_cases, library)
+            if cleaned > 0:
+                logger.info(
+                    "Removed Steam tool entries from library",
+                    count=cleaned,
+                )
 
         # After sync, try to fetch covers for any games that lack them
         try:

@@ -25,6 +25,7 @@ from app.stores.manager import StoreManager
 
 router = APIRouter(tags=["library"])
 
+
 def _parse_game_id(game_id: str) -> GameId:
     """Parse a UUID string into a GameId, or raise 400."""
     try:
@@ -48,11 +49,7 @@ def _game_result_to_response(result: GameResult) -> GameResponse:
         cover_art_url=result.cover_art_url,
         install_path=result.install_path,
         executable_path=result.executable_path,
-        last_played=(
-            datetime.fromisoformat(result.last_played)
-            if result.last_played
-            else None
-        ),
+        last_played=(datetime.fromisoformat(result.last_played) if result.last_played else None),
         total_play_time_seconds=result.total_play_time_seconds,
         is_favorite=result.is_favorite,
         created_at=datetime.fromisoformat(result.created_at),
@@ -69,9 +66,7 @@ async def list_games(
     use_cases: LibraryUseCases = Depends(get_use_cases),
 ) -> list[GameResponse]:
     """List all games with optional filters (heroic-style unified library)."""
-    results = use_cases.list_all_games(
-        store=store, status=status, search=search, favorite=favorite
-    )
+    results = use_cases.list_all_games(store=store, status=status, search=search, favorite=favorite)
     return [_game_result_to_response(r) for r in results]
 
 
@@ -260,6 +255,12 @@ async def sync_store_games(
         )
     library = libraries[0]
 
+    # Build set of existing (store, title_lower) to avoid duplicates
+    existing_titles: set[str] = set()
+    for g in library.games.values():
+        if g.store.value == store_name:
+            existing_titles.add(g.title.value.lower())
+
     imported = 0
     errors: list[str] = []
 
@@ -267,6 +268,11 @@ async def sync_store_games(
 
     for sg in store_games:
         try:
+            title_lower = sg.title.lower()
+            if title_lower in existing_titles:
+                continue  # skip duplicate
+            existing_titles.add(title_lower)
+
             title = GameTitle(sg.title)
             domain_game = DomainGame(
                 id=GameId.generate(),
