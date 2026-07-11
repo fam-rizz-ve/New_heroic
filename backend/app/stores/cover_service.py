@@ -19,10 +19,36 @@ from app.core.use_cases.library import GameResult, LibraryUseCases
 logger = structlog.get_logger(__name__)
 
 STEAM_SEARCH_URL = "https://store.steampowered.com/api/storesearch"
-STEAM_COVER_CDN = "https://steamcdn-a.akamaihd.net/steam/apps/{appid}/library_600x900.jpg"
+STEAM_COVER_CDN = "https://cdn.akamai.steamstatic.com/steam/apps/{appid}/library_600x900_2x.jpg"
+STEAM_COVER_CDN_FALLBACK = "https://cdn.cloudflare.steamstatic.com/steam/apps/{appid}/library_600x900.jpg"
 
 STEAMGRIDDB_SEARCH_URL = "https://www.steamgriddb.com/api/v2/search/autocomplete/{query}"
 STEAMGRIDDB_GRIDS_URL = "https://www.steamgriddb.com/api/v2/grids/game/{game_id}"
+
+
+async def _resolve_steam_cover(appid: int) -> str:
+    """Return the best available Steam cover URL for *appid*.
+
+    Tries the primary CDN first, falls back to the Cloudflare CDN if
+    the primary returns a non-success status.
+    """
+    primary = STEAM_COVER_CDN.format(appid=appid)
+    try:
+        async with httpx.AsyncClient(timeout=8, follow_redirects=True) as client:
+            resp = await client.head(primary)
+            if resp.is_success:
+                return primary
+    except httpx.RequestError:
+        pass
+
+    fallback = STEAM_COVER_CDN_FALLBACK.format(appid=appid)
+    logger.debug(
+        "Steam primary CDN failed, using fallback",
+        appid=appid,
+        primary=primary,
+        fallback=fallback,
+    )
+    return fallback
 
 # GOG CDN patterns — the embed API returns small ~196x196 thumbnails from
 # images.gog-cdn.com.  We try to "upscale" by requesting known larger
@@ -71,7 +97,7 @@ async def search_steam_cover(game_title: str) -> str | None:
                 if item_name == title_lower:
                     appid = item.get("id")
                     if appid:
-                        cover_url = STEAM_COVER_CDN.format(appid=appid)
+                        cover_url = await _resolve_steam_cover(appid)
                         logger.info("Found exact cover match", title=game_title, appid=appid)
                         return cover_url
 
@@ -79,7 +105,7 @@ async def search_steam_cover(game_title: str) -> str | None:
             first = items[0]
             appid = first.get("id")
             if appid:
-                cover_url = STEAM_COVER_CDN.format(appid=appid)
+                cover_url = await _resolve_steam_cover(appid)
                 logger.info(
                     "Found approximate cover match",
                     title=game_title,
@@ -161,6 +187,7 @@ async def search_steamgriddb_cover(game_title: str) -> str | None:
             grids_data = grids_resp.json()
             grids = grids_data.get("data", [])
             if not grids:
+                logger.debug("No grids found for game_id", title=game_title, game_id=game_id)
                 return None
 
             # Filter for 600x900 grids (preferred SteamGridDB format)
@@ -415,8 +442,13 @@ async def refresh_game_cover(
     # Multi-source cover art strategy
     cover_url = None
 
+    # Source 0 (Epic only): use Legendary info to get official cover art
+    is_epic = game.store == StoreSource.EPIC
+    if is_epic and game.store_id:
+        cover_url = await search_epic_cover(game.store_id)
+
     # Source 1 (GOG only): try GOG CDN upsizing + SteamGridDB/Steam fallback
-    if is_gog:
+    if not cover_url and is_gog:
         cover_url = await search_gog_cover(game.title, game.cover_art_url)
 
     # Source 2: Steam store search (catches cross-platform games)
@@ -426,9 +458,6 @@ async def refresh_game_cover(
     # Source 3: SteamGridDB (fallback for anything else)
     if not cover_url:
         cover_url = await search_steamgriddb_cover(game.title)
-
-    # Note: search_epic_cover() requires store_id which is not available
-    # in the current domain model. Will be added in a future update.
 
     if cover_url:
         try:

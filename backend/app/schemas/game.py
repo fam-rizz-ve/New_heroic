@@ -31,6 +31,7 @@ class GameResponse(BaseModel):
     status: str
     description: str
     cover_art_url: str
+    store_id: str = ""
     install_path: str | None = None
     executable_path: str | None = None
     last_played: datetime | None = None

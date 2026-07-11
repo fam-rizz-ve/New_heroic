@@ -42,6 +42,7 @@ class Game:
     status: GameStatus = GameStatus.NOT_INSTALLED
     description: str = ""
     cover_art_url: str = ""
+    store_id: str = ""
     install_path: InstallPath | None = None
     executable_path: ExecutablePath | None = None
     last_played: datetime | None = None

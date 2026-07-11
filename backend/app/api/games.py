@@ -358,6 +358,7 @@ def _game_result_to_response(result: object) -> GameResponse:
         status=getattr(result, "status", ""),
         description=getattr(result, "description", ""),
         cover_art_url=getattr(result, "cover_art_url", ""),
+        store_id=getattr(result, "store_id", ""),
         install_path=getattr(result, "install_path", None),
         executable_path=getattr(result, "executable_path", None),
         last_played=(
@@ -366,6 +367,7 @@ def _game_result_to_response(result: object) -> GameResponse:
             else None
         ),
         total_play_time_seconds=getattr(result, "total_play_time_seconds", 0),
+        is_favorite=getattr(result, "is_favorite", False),
         created_at=ta.validate_python(getattr(result, "created_at", "1970-01-01T00:00:00")),
         updated_at=ta.validate_python(getattr(result, "updated_at", "1970-01-01T00:00:00")),
     )
@@ -388,10 +390,12 @@ def _game_to_response(result: object, game: object) -> GameResponse:
         status=getattr(result, "status", ""),
         description=getattr(result, "description", ""),
         cover_art_url=getattr(result, "cover_art_url", ""),
+        store_id=getattr(result, "store_id", ""),
         install_path=getattr(result, "install_path", None),
         executable_path=getattr(result, "executable_path", None),
         last_played=getattr(game, "last_played", None),
         total_play_time_seconds=getattr(result, "total_play_time_seconds", 0),
+        is_favorite=getattr(result, "is_favorite", False),
         created_at=getattr(game, "created_at", dt.now()),
         updated_at=getattr(game, "updated_at", dt.now()),
     )

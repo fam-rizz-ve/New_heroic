@@ -139,6 +139,7 @@ async def _do_sync(store_name: str, state: SyncState) -> None:
                     runner=RunnerType.WINE,
                     description=sg.description,
                     cover_art_url=sg.cover_art_url,
+                    store_id=sg.store_id,
                 )
                 library.add_game(domain_game)
                 use_cases._game_repo.save(domain_game)

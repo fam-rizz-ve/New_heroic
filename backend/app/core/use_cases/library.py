@@ -37,6 +37,7 @@ class GameResult:
     status: str
     description: str
     cover_art_url: str
+    store_id: str
     install_path: str | None
     executable_path: str | None
     last_played: str | None
@@ -212,6 +213,7 @@ def _game_to_result(game: Game) -> GameResult:
         status=game.status.value,
         description=game.description,
         cover_art_url=game.cover_art_url,
+        store_id=game.store_id,
         install_path=game.install_path.value if game.install_path else None,
         executable_path=game.executable_path.value
         if game.executable_path

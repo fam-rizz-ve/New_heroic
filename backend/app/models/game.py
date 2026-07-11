@@ -35,6 +35,7 @@ class GameModel(Base):
     )
     description: Mapped[str] = mapped_column(Text, default="", nullable=False)
     cover_art_url: Mapped[str] = mapped_column(Text, default="", nullable=False)
+    store_id: Mapped[str] = mapped_column(String(255), default="", nullable=False)
     install_path: Mapped[str | None] = mapped_column(
         String(1024), nullable=True
     )
@@ -61,6 +62,7 @@ class GameModel(Base):
             status=GameStatus(self.status),
             description=self.description,
             cover_art_url=self.cover_art_url,
+            store_id=self.store_id,
             install_path=InstallPath(self.install_path)
             if self.install_path
             else None,
@@ -85,6 +87,7 @@ class GameModel(Base):
             status=game.status.value,
             description=game.description,
             cover_art_url=game.cover_art_url,
+            store_id=game.store_id,
             install_path=game.install_path.value
             if game.install_path
             else None,
@@ -106,6 +109,7 @@ class GameModel(Base):
         self.status = game.status.value
         self.description = game.description
         self.cover_art_url = game.cover_art_url
+        self.store_id = game.store_id
         self.install_path = (
             game.install_path.value if game.install_path else None
         )

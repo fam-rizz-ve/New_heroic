@@ -292,7 +292,7 @@ class TestGameResponseStructure:
         data = game_resp.json()
         expected_fields = {
             "id", "title", "store", "runner", "status",
-            "description", "cover_art_url", "install_path",
+            "description", "cover_art_url", "store_id", "install_path",
             "executable_path", "last_played", "total_play_time_seconds",
             "is_favorite", "created_at", "updated_at",
         }

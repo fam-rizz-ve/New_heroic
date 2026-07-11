@@ -47,6 +47,7 @@ def _game_result_to_response(result: GameResult) -> GameResponse:
         status=result.status,
         description=result.description,
         cover_art_url=result.cover_art_url,
+        store_id=result.store_id,
         install_path=result.install_path,
         executable_path=result.executable_path,
         last_played=(datetime.fromisoformat(result.last_played) if result.last_played else None),
@@ -281,6 +282,7 @@ async def sync_store_games(
                 runner=RunnerType.WINE,
                 description=sg.description,
                 cover_art_url=sg.cover_art_url,
+                store_id=sg.store_id,
             )
             library.add_game(domain_game)
             use_cases._game_repo.save(domain_game)

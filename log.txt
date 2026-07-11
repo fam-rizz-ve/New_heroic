@@ -1,0 +1,747 @@
+ints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=4%2FwA2vukxK4uYrRxLE0wAYdMTPzts4C1VQioyM9%2BMbNC5D4IrB7kkekkieqF%2BvQlFKL13P9xBTUT%2BZnAjeK2tQQFqDdLbpHnFHE6MAqlG1Gsok5tN%2FxyZKSn0nqU2qAtSt8vfqUZ"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e3586ee0edcf-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/grids/game/5510830 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+close.started
+close.complete
+2026-07-11 11:47:40,422 INFO sqlalchemy.engine.Engine SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+2026-07-11 11:47:40,422 INFO sqlalchemy.engine.Engine [cached since 17.72s ago] ('ed673083-534b-4cac-b30f-8244b4b0a0e1',)
+[cached since 17.72s ago] ('ed673083-534b-4cac-b30f-8244b4b0a0e1',)
+connect_tcp.started host='store.steampowered.com' port=443 local_address=None timeout=10 socket_options=None
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:40 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=zxW4LMENGZskUSw8MWA1ceeiAG2lbYkkWDNmQkWdX3ut8P2GoVJzZxwZxRJ0r2HdI2XQDJKZjKBk4PjDE7uXApAIoJc01LSWS57mdCzuoZyUQ7rkc9MuPk48LPhNhm6urCcJK6ge"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e3586e410e03-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/grids/game/5259105 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+close.started
+close.complete
+2026-07-11 11:47:40,427 INFO sqlalchemy.engine.Engine SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+2026-07-11 11:47:40,427 INFO sqlalchemy.engine.Engine [cached since 17.72s ago] ('b6e44091-936e-4bf1-b383-1821265c422d',)
+[cached since 17.72s ago] ('b6e44091-936e-4bf1-b383-1821265c422d',)
+connect_tcp.started host='store.steampowered.com' port=443 local_address=None timeout=10 socket_options=None
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c7de0>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c5630>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c4d70>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20443410> server_hostname='store.steampowered.com' timeout=10
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c5040>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20443710> server_hostname='store.steampowered.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c6440>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c66c0>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:40 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=UCzRaWKT0gvgQ4CnUP3TEzUnbwiyA1DhEC7Cpyh12v%2BSa3vXrnzLnv84gP%2BtYqbAEqNRpjguu8SHjO5C1TLT18vvDBT%2FWDVER4rv1kTivENjjhwfhP4bwjrXRg6Lidcq%2FhR4WUr8"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e35929865915-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/grids/game/5246978 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+close.started
+close.complete
+2026-07-11 11:47:40,532 INFO sqlalchemy.engine.Engine SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+2026-07-11 11:47:40,532 INFO sqlalchemy.engine.Engine [cached since 17.83s ago] ('77282542-17b9-499d-a8ce-e846b87c3caf',)
+[cached since 17.83s ago] ('77282542-17b9-499d-a8ce-e846b87c3caf',)
+connect_tcp.started host='store.steampowered.com' port=443 local_address=None timeout=10 socket_options=None
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:40 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=MONGIL%3A+STAR+DIVE&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:40.589087Z [debug    ] No Steam search results        [app.stores.cover_service] title='MONGIL: STAR DIVE'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c6620>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20443050> server_hostname='store.steampowered.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c6b70>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c70c0>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20443950> server_hostname='www.steamgriddb.com' timeout=10
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:40 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=Moore%27s+RPG+Template&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:40.663926Z [debug    ] No Steam search results        [app.stores.cover_service] title="Moore's RPG Template"
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c6120>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c5450>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20443c50> server_hostname='www.steamgriddb.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c4af0>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:40 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=RealityCapture+1.4.2&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:40.852085Z [debug    ] No Steam search results        [app.stores.cover_service] title='RealityCapture 1.4.2'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:40 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=omkq5rltbb3jah6h6s7vhpgbmf; expires=Sat, 18-Jul-2026 09:47:40 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ed0KkpzHEPuF%2BYU25kUjmAz9sixEA8ar4Mz7Ka2aAtXYZM5UOQXNgRAzPEMLsZ7ZZOTZMSNuOJwwO728MVbFBAyOeLTie%2BVC1bSW4Uv%2FvnFwTSeD6f1eNUsTAbKhDd1CCm7i%2BNEh"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e35b489cee53-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/MONGIL%3A%20STAR%20DIVE "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:40 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=PCG+Layered+Biomes&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:40.873405Z [debug    ] No Steam search results        [app.stores.cover_service] title='PCG Layered Biomes'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:40 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=Multiplayer+Action+Unreal+Tools+%28MAUT%29&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:40.878030Z [debug    ] No Steam search results        [app.stores.cover_service] title='Multiplayer Action Unreal Tools (MAUT)'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:40 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=RealityCapture+1.5.1&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:40.891833Z [debug    ] No Steam search results        [app.stores.cover_service] title='RealityCapture 1.5.1'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c2026b7a0>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20443b90> server_hostname='www.steamgriddb.com' timeout=10
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bdd60>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20443f50> server_hostname='www.steamgriddb.com' timeout=10
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bead0>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c22a44410> server_hostname='www.steamgriddb.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bc550>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:40 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=nja451q0se18mi8ocmpa3m18d2; expires=Sat, 18-Jul-2026 09:47:40 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=KB5p56U6xsk6QQ9YJlpbf42IhCwTv9rpdiqMrST2B9WIP0VXK7WNj6sPANEwJcS8snXrhV1YujppKoXVXE5EUYV0R9VEZLpiYnLXCaQLtDbWXiAv8TIrXIbQL0MNm7aVbMgz9fMq"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e35ba94ee8b8-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/Moore%27s%20RPG%20Template "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bf8e0>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bfde0>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bf250>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c22a44710> server_hostname='www.steamgriddb.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204be760>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=McnOosCCBeN4dp6BPhaE1SAxKIoNgX%2Fnhl58Tq50T28%2BcdU6ugufPpalmk%2FZnkgquJ%2BukJuTkyqlld2a%2BMixpaT1u8U7Yrz8BSv8S6uAOBkDPIRE5gFnOX6YCrexGUCEDKyKIfs4"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e35c8a7fee53-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/grids/game/5328984 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+close.started
+close.complete
+2026-07-11 11:47:41,070 INFO sqlalchemy.engine.Engine SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+2026-07-11 11:47:41,070 INFO sqlalchemy.engine.Engine [cached since 18.36s ago] ('adbb9c36-eb96-41fe-98c3-d3e077249de3',)
+[cached since 18.36s ago] ('adbb9c36-eb96-41fe-98c3-d3e077249de3',)
+connect_tcp.started host='store.steampowered.com' port=443 local_address=None timeout=10 socket_options=None
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=RealityScan+2.0.1&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.110260Z [debug    ] No Steam search results        [app.stores.cover_service] title='RealityScan 2.0.1'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bf160>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c22a44590> server_hostname='store.steampowered.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bc140>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=nB2EeTPuUjoeXFvthSW%2FJ2lTyr7UQI4UUCfHtEpRhA461BwMmTUhNgBNM%2FjIExBcr5ZvhHNkOb4u9w5H1COTirYb1niO34sIL8pm1Ifb%2Bt4sq2RZH6OGDfnn0UPU%2BR5ASkAd%2Beva"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e35cfad0e8b8-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/grids/game/5414966 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+close.started
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=smvsjb8d3jpu8rdsguoiin2e6f; expires=Sat, 18-Jul-2026 09:47:41 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=1XuHUTqMKTAxpJ2yZgrCBkjWvtMUMJDMzfjDlaSu7ulcytYINqZugctCe5xhvqrInpkw19fxzsq9UKkipwEPpMx7VS1xr9uKZBADvVTsawkYvrR6u7by9kGtYdrgMU2iCsucf0Ux"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e35ceeff1569-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/RealityCapture%201.4.2 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+close.complete
+response_closed.complete
+2026-07-11 11:47:41,143 INFO sqlalchemy.engine.Engine SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+2026-07-11 11:47:41,143 INFO sqlalchemy.engine.Engine [cached since 18.44s ago] ('e81b57fa-1412-483d-9cca-34845c053051',)
+[cached since 18.44s ago] ('e81b57fa-1412-483d-9cca-34845c053051',)
+connect_tcp.started host='store.steampowered.com' port=443 local_address=None timeout=10 socket_options=None
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bcf00>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c22a44ad0> server_hostname='www.steamgriddb.com' timeout=10
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'26'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=j8l7i60f3mv97houslc22tfnt8; expires=Sat, 18-Jul-2026 09:47:41 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=yJx2ziI0kUSyK0V2BTGh4q63kRGAQKZzjEBI2d5tanCeGLLKAiN%2B4CFSsILYXyX%2FP9NM6qQDa0KNKC66fzo9soBt5XGGZ6PI43i4ENy2KJT8cmHUUs51fSWF7RCdnCwFygDQJZ%2F4"}]}'), (b'CF-RAY', b'a196e35d0ec4edd6-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/PCG%20Layered%20Biomes "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.157973Z [debug    ] No SteamGridDB results         [app.stores.cover_service] title='PCG Layered Biomes'
+close.started
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=PorismDIMsWorldGenerator+Lite-Version&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+close.complete
+response_closed.complete
+2026-07-11T09:47:41.158628Z [debug    ] No Steam search results        [app.stores.cover_service] title='PorismDIMsWorldGenerator Lite-Version'
+close.started
+2026-07-11 11:47:41,158 INFO sqlalchemy.engine.Engine SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+2026-07-11 11:47:41,159 INFO sqlalchemy.engine.Engine [cached since 18.45s ago] ('4bf92c30-a99a-467d-9d1d-437c45be9f02',)
+[cached since 18.45s ago] ('4bf92c30-a99a-467d-9d1d-437c45be9f02',)
+close.complete
+connect_tcp.started host='store.steampowered.com' port=443 local_address=None timeout=10 socket_options=None
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=mloperpe4sh3ovegpdlv8lh9dn; expires=Sat, 18-Jul-2026 09:47:41 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=L35mhZJIepp9S6wRdDLPyWGNBFPjdO6T1PnU3f2uMGLrbuoHOcfI99zkkmGN4iEsk2VPNAWMEtwrvT7%2FO6k5jxfEAn2PjkOzpCr87k%2Fa04VeMwS0yp0ANJ7%2FzamL7nS49DJQu2FY"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e35d0ec4cd47-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/Multiplayer%20Action%20Unreal%20Tools%20%28MAUT%29 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bc780>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c202dd270>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c22a44c50> server_hostname='store.steampowered.com' timeout=10
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=b3t9f8sp7vilfbch57eea2qvmr; expires=Sat, 18-Jul-2026 09:47:41 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=eSr7Cnvc5hpELKTqKYtoYDfS935mhAxS2RgAuzbYTN3BjRdWJBzudF5EZXvD24v2uySZSj1hQx9siQwxLB990oZLtbctAJkn%2F2fYYmtnCRXIAW8ZQe4QftpfA9PW4yER%2B8CVL%2Fxx"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e35d593eedda-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/RealityCapture%201.5.1 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c202dd4a0>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c22a450d0> server_hostname='store.steampowered.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c202de940>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c202de800>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20440d10> server_hostname='www.steamgriddb.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c202dedf0>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c202dc870>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=RealityScan+2.2&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.276987Z [debug    ] No Steam search results        [app.stores.cover_service] title='RealityScan 2.2'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204be300>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c22a45550> server_hostname='www.steamgriddb.com' timeout=10
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=rDJXQP51RcFhjWZVkG5QeJnbgtyDX7EYyQTdYLyi6kBoDzgApM0UjE%2B6homyioV9RCMo%2BTXWYkzXMwasr3jbSbyXTaD06rkoIugPn34HK6%2Fh6BybpoYN3WqLF3xKr0%2FlDHARJ%2F4g"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e35e49db1569-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/grids/game/5251937 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+close.started
+close.complete
+2026-07-11 11:47:41,353 INFO sqlalchemy.engine.Engine SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+2026-07-11 11:47:41,353 INFO sqlalchemy.engine.Engine [cached since 18.65s ago] ('3eef5ef5-6a92-448d-9579-fcd077386928',)
+[cached since 18.65s ago] ('3eef5ef5-6a92-448d-9579-fcd077386928',)
+connect_tcp.started host='store.steampowered.com' port=443 local_address=None timeout=10 socket_options=None
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ItGTUzjQWeEsPte6Fj3XPgXmoS5TcCZFtQum1h8UvaVxRm9Te4r%2FBvi1TpI5HtLSq6byJsm9Oj230Dk%2BTOzywOa7LLTLvdtKjyX4KlyvB6aG8vVbA4ksJPHbPVvlZNJMz4ORQ44v"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e35e599fcd47-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/grids/game/18102 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+close.started
+close.complete
+2026-07-11 11:47:41,367 INFO sqlalchemy.engine.Engine SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+2026-07-11 11:47:41,367 INFO sqlalchemy.engine.Engine [cached since 18.66s ago] ('fd93582e-2dff-4efb-acd8-3fc21564426b',)
+[cached since 18.66s ago] ('fd93582e-2dff-4efb-acd8-3fc21564426b',)
+connect_tcp.started host='store.steampowered.com' port=443 local_address=None timeout=10 socket_options=None
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c4af0>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'26'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=l4gbfbc63160dppdud8lm3c0b3; expires=Sat, 18-Jul-2026 09:47:41 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=wUcoZf4Ko4RxPlCQ1kNadwGSIakTsy1vdNktMnvK4Ax6hFWLe92W7Lnspx47EX4zDxaHp0HQDkexmMCwx5QpE84%2BNTFgqNziRUlktZxf5ScxwbapmE2YRQK8JjDTzTv7Com5QoYt"}]}'), (b'CF-RAY', b'a196e35e6885ed5f-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/RealityScan%202.0.1 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.380145Z [debug    ] No SteamGridDB results         [app.stores.cover_service] title='RealityScan 2.0.1'
+close.started
+close.complete
+2026-07-11 11:47:41,380 INFO sqlalchemy.engine.Engine SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+2026-07-11 11:47:41,380 INFO sqlalchemy.engine.Engine [cached since 18.67s ago] ('af0a8543-032c-496f-a48a-4a546efa7f0c',)
+[cached since 18.67s ago] ('af0a8543-032c-496f-a48a-4a546efa7f0c',)
+connect_tcp.started host='store.steampowered.com' port=443 local_address=None timeout=10 socket_options=None
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c4aa0>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20443f50> server_hostname='store.steampowered.com' timeout=10
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ff1lxrTg9XLBlHLDTCjjgQ562qDAn8XenUMj1Bmp0h2ByScjmGhn%2Bjs26fj0fxKqbgJR%2FYfiFPX%2FuhvoRrAZ9pSkf1CO6Oa16vu%2Ba5VvCIJrxN%2FdAbjuYc9rT8RYviaZQdvzvyTE"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e35e9cceedda-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/grids/game/5251937 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+close.started
+close.complete
+2026-07-11 11:47:41,403 INFO sqlalchemy.engine.Engine SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+SELECT games.id AS games_id, games.title AS games_title, games.store AS games_store, games.runner AS games_runner, games.status AS games_status, games.description AS games_description, games.cover_art_url AS games_cover_art_url, games.install_path AS games_install_path, games.executable_path AS games_executable_path, games.last_played AS games_last_played, games.total_play_time_seconds AS games_total_play_time_seconds, games.is_favorite AS games_is_favorite, games.created_at AS games_created_at, games.updated_at AS games_updated_at
+FROM games
+WHERE games.id = ?
+2026-07-11 11:47:41,403 INFO sqlalchemy.engine.Engine [cached since 18.7s ago] ('8e97d33e-c3a7-4394-9643-7f5d337dc873',)
+[cached since 18.7s ago] ('8e97d33e-c3a7-4394-9643-7f5d337dc873',)
+connect_tcp.started host='store.steampowered.com' port=443 local_address=None timeout=10 socket_options=None
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c7070>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c7c00>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c204410d0> server_hostname='store.steampowered.com' timeout=10
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c6fd0>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20443890> server_hostname='store.steampowered.com' timeout=10
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c43c0>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20443110> server_hostname='store.steampowered.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c6670>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c5130>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'26'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=n30d91p11p9tuuemkc1p49pq43; expires=Sat, 18-Jul-2026 09:47:41 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=LIDaqZGZi5EQ%2FVEwaEgGP6hPFyeMUBBvp%2FTpwEeEWMu3Ttl8M8Oe%2B8EfO%2B%2FahZXCNainjryJogmra4ju%2Bac0e8xO%2FF1XTJY4ifG8i6UbRgKUbzwI49iiwU9PBHoWa2ZcBLzo5bze"}]}'), (b'CF-RAY', b'a196e35eea3bed2c-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/PorismDIMsWorldGenerator%20Lite-Version "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.467044Z [debug    ] No SteamGridDB results         [app.stores.cover_service] title='PorismDIMsWorldGenerator Lite-Version'
+close.started
+close.complete
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bf390>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=RealityScan+2.1.1&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.481827Z [debug    ] No Steam search results        [app.stores.cover_service] title='RealityScan 2.1.1'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c203d62b0>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20440a10> server_hostname='www.steamgriddb.com' timeout=10
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=System+Mic+Control+Lite&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.544557Z [debug    ] No Steam search results        [app.stores.cover_service] title='System Mic Control Lite'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c12651b30>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'26'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=6s17ngtdae4tabgpueujmji8o0; expires=Sat, 18-Jul-2026 09:47:41 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=NTU6a7JpmLZ2cNcDuf%2BAeFXGAr%2BvQMLgSJMYTonMplOI7z6vA68e2wyaWK59b9dbLplmzjS%2FBRg3%2FjkC2cvGTYiU9uidgfaDA1KvZHpx1VaHyKD7jjjs6dk2yeYEDsVkM7%2FR1n60"}]}'), (b'CF-RAY', b'a196e35fa96059d7-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/RealityScan%202.2 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.585366Z [debug    ] No SteamGridDB results         [app.stores.cover_service] title='RealityScan 2.2'
+close.started
+close.complete
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c2026bed0>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20442e10> server_hostname='www.steamgriddb.com' timeout=10
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=Twinmotion+2023.2.4&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.625036Z [debug    ] No Steam search results        [app.stores.cover_service] title='Twinmotion 2023.2.4'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c12650730>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c12652260>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c204434d0> server_hostname='www.steamgriddb.com' timeout=10
+INFO:     127.0.0.1:58076 - "GET /api/sync/2f557b91-2b65-4602-8471-6f3d0cdc7f98 HTTP/1.1" 200 OK
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c2035b700>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'26'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=nlng6l7b6hfkl8clk8i0jeuaib; expires=Sat, 18-Jul-2026 09:47:41 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=iQ8BYh11xGvXqaC75775SxW%2FvVRyMUBF1ORw3XnnfmpfYnqvzWD8aC3gaixIv4uO0BO2rK%2FfkAo4d7erEZ1E6j4NJAIuaZFbZTwzpYTiSmRRrhCuxS7Gr3rPSG6EYtCUk8EvRqQO"}]}'), (b'CF-RAY', b'a196e360cc74f349-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/RealityScan%202.1.1 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.758812Z [debug    ] No SteamGridDB results         [app.stores.cover_service] title='RealityScan 2.1.1'
+close.started
+close.complete
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=Sequence+Embedded+Wallets&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.770156Z [debug    ] No Steam search results        [app.stores.cover_service] title='Sequence Embedded Wallets'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c20358af0>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20442bd0> server_hostname='www.steamgriddb.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c2035a670>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=im0h51an2j2rspoc38ljcbigji; expires=Sat, 18-Jul-2026 09:47:41 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=fZ8pz8riRuo7uqFY%2FCR4Q2kRvFANFEAUKUsq31WbFkvd%2BY0fhoSVpEUKrwPFJJv7lzcS3E1CLjzKOZDIPFWLXfI4KvHgmGLDcCvza1EWsaOWtXxzdkX%2BFqFPXlPONI3VlOLwHeTo"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e3614c7dbaa6-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/System%20Mic%20Control%20Lite "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=Twinmotion+2025.1.1&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.897119Z [debug    ] No Steam search results        [app.stores.cover_service] title='Twinmotion 2025.1.1'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c20359540>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20442510> server_hostname='www.steamgriddb.com' timeout=10
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'26'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=4r9n1qpkp035bqhk9r1iuvai7b; expires=Sat, 18-Jul-2026 09:47:41 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=aDsef4IEFJ7yQGEDN8lwpu3zwGdOCjogfCaaKsho5aWRJ5Pl29xpDXj2f2w8V5ZMjRyt9yO7VdcVs5B9w7Kht6jNbpyTs0JyFXHMn5LjE7SNQDLvD84q9ZHTFGnreq19f%2FnPhSyP"}]}'), (b'CF-RAY', b'a196e361c9154bf5-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/Twinmotion%202023.2.4 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.937125Z [debug    ] No SteamGridDB results         [app.stores.cover_service] title='Twinmotion 2023.2.4'
+close.started
+close.complete
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:41 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=Twinmotion+2026.1+HF2&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:41.937897Z [debug    ] No Steam search results        [app.stores.cover_service] title='Twinmotion 2026.1 HF2'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c2035a940>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c20358a50>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20440e90> server_hostname='www.steamgriddb.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c203588c0>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:42 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=Twinmotion+2024.1.2&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:42.039992Z [debug    ] No Steam search results        [app.stores.cover_service] title='Twinmotion 2024.1.2'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:42 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=qkqlrjljmea6jvs5l6o3jm3rlj; expires=Sat, 18-Jul-2026 09:47:41 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=q5CkL1b91Ezi2PNIibzlyca1blCvHr87zSv7fHfvSj2hpu2pHUN2yUtc3CayU323hjq5x3tB7gPtZyX2FdBjpO0NynbT2qj8Lyk%2BdzMoD8%2FITrfpzdO5YHWGXmtic1%2FWQYeoktEN"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e36289baed2c-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/Sequence%20Embedded%20Wallets "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:42 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=D9yu9XV%2FHI0%2FHTO2g2Q2nAdyXPtUpg03a2ImhmnPZkdq9oMTKtgxmIkRNuHr16OFnRDH%2BYFPhpMA9ImgIpv%2FGJR6z%2Bih%2FyGV%2BhmlJPoh5l07%2Bbb7WO6t4h%2BOkVZnIjw15nHSm099"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e3628d0bbaa6-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/grids/game/5502157 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+close.started
+close.complete
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c45a0>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20442a50> server_hostname='www.steamgriddb.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bdea0>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:42 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'26'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=fibpev204krip7m1qbq9nk2b77; expires=Sat, 18-Jul-2026 09:47:42 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=kmcGDNwkscQOE%2Fiw47bXRiuB5I9u1hwA8fnM28TfiLMcy6GdLrZPWStxOx5Qikqp1A1kd4TPx%2FMAOVe9zgkD%2BPUiPIZWuALG8OHOF2mfvpY9kwYoUfFhTJUW4F6b%2Feuw27jChi0r"}]}'), (b'CF-RAY', b'a196e3635b50ed58-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/Twinmotion%202025.1.1 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:42.172269Z [debug    ] No SteamGridDB results         [app.stores.cover_service] title='Twinmotion 2025.1.1'
+close.started
+close.complete
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:42 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'26'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=g3b5rudb083c73rn83u383nsuc; expires=Sat, 18-Jul-2026 09:47:42 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=BgxGv%2FvJ7ba1rA8AeL49AetrcNzRZQSKIhLUZ1ymDJItGHuYoxVvUOqGHwCN6VLfWmlAirECsb5haxdsZM6l9B%2FQY9p4aP7Q7bXVRBo9xF4IL5Hvgqk4h7tQxbmP3FaJ3Qs6d4fD"}]}'), (b'CF-RAY', b'a196e363ba6ded2d-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/Twinmotion%202026.1%20HF2 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:42.233765Z [debug    ] No SteamGridDB results         [app.stores.cover_service] title='Twinmotion 2026.1 HF2'
+close.started
+close.complete
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:42 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=qpYhSZT1Hva1g%2BGxWLUY7s0gmxLasMcN9SP8Kuno0aDF7f73SR1ASP3Qfn%2BXAo09wfV6G297NlsNv%2FKH5cCyyTY90re3xTgaQENBKWdibaoq64%2FIL1zzurcWuDeh2xWVGx9C2LUL"}]}'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'a196e363dcdbed2c-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/grids/game/18204 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+close.started
+close.complete
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Server', b'nginx'), (b'Content-Type', b'application/json; charset=utf-8'), (b'X-Frame-Options', b'DENY'), (b'Content-Encoding', b'gzip'), (b'Vary', b'Accept-Encoding'), (b'Strict-Transport-Security', b'max-age=63072000'), (b'Content-Length', b'42'), (b'Date', b'Sat, 11 Jul 2026 09:47:42 GMT'), (b'Connection', b'keep-alive')])
+HTTP Request: GET https://store.steampowered.com/api/storesearch?term=Twinmotion+2025.2&l=en&cc=US "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:42.285276Z [debug    ] No Steam search results        [app.stores.cover_service] title='Twinmotion 2025.2'
+close.started
+close.complete
+connect_tcp.started host='www.steamgriddb.com' port=443 local_address=None timeout=10 socket_options=None
+connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204c6530>
+start_tls.started ssl_context=<ssl.SSLContext object at 0x7f2c20440950> server_hostname='www.steamgriddb.com' timeout=10
+start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x7f2c204bcf50>
+send_request_headers.started request=<Request [b'GET']>
+send_request_headers.complete
+send_request_body.started request=<Request [b'GET']>
+send_request_body.complete
+receive_response_headers.started request=<Request [b'GET']>
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:42 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'26'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=91ba0slrmibkh6eecqdmsbie1p; expires=Sat, 18-Jul-2026 09:47:42 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=tD86hIh3EgVIyAulnny%2B31JagzVds8IdRxgVQR7P4Qi6hRZaxImQkqcVdr9vVMjW4UdptbI0c%2FPEli2JnTPOpkQLsDFcmZWbUhKh9t0Z%2FzRSeJVmCNAdtNoRhQS00cO4hMmqR%2FOe"}]}'), (b'CF-RAY', b'a196e3647e37eda4-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/Twinmotion%202024.1.2 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:42.358057Z [debug    ] No SteamGridDB results         [app.stores.cover_service] title='Twinmotion 2024.1.2'
+close.started
+close.complete
+receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Sat, 11 Jul 2026 09:47:42 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'26'), (b'Connection', b'keep-alive'), (b'Server', b'cloudflare'), (b'Set-Cookie', b'PHPSESSID=teeendd9imr8hjruf043lc2qh4; expires=Sat, 18-Jul-2026 09:47:42 GMT; Max-Age=604800; path=/'), (b'Set-Cookie', b'PHPSESSID=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/'), (b'Expires', b'Thu, 19 Nov 1981 08:52:00 GMT'), (b'Cache-Control', b'no-store, no-cache, must-revalidate'), (b'Pragma', b'no-cache'), (b'Nel', b'{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'), (b'Cf-Cache-Status', b'DYNAMIC'), (b'Report-To', b'{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=OKrwRbAPtEHkX4%2BxFmYY9200SAAvYLhxcm%2FkSI8UDMDsTG166lFT%2FobZLEdxu%2FcmcMUYHHdXM7XEZRNOqOnHZGulyVUNWWFcbyKg5nNMR1%2BjD%2FLstFAmZnxTWQcKVcoJ7rj%2FzDKm"}]}'), (b'CF-RAY', b'a196e365ebdf0e85-MXP'), (b'alt-svc', b'h3=":443"; ma=86400')])
+HTTP Request: GET https://www.steamgriddb.com/api/v2/search/autocomplete/Twinmotion%202025.2 "HTTP/1.1 200 OK"
+receive_response_body.started request=<Request [b'GET']>
+receive_response_body.complete
+response_closed.started
+response_closed.complete
+2026-07-11T09:47:42.598401Z [debug    ] No SteamGridDB results         [app.stores.cover_service] title='Twinmotion 2025.2'
+close.started
+close.complete
+2026-07-11T09:47:42.598623Z [info     ] Cover refresh complete         [app.stores.cover_service] failed=27 refreshed=0 total_checked=27
+2026-07-11T09:47:42.598912Z [info     ] Background sync completed      [app.sync.manager] imported=0 store=gog total=247
+INFO:     127.0.0.1:58076 - "GET /api/sync/2f557b91-2b65-4602-8471-6f3d0cdc7f98 HTTP/1.1" 200 OK
+2026-07-11 11:47:43,706 INFO sqlalchemy.engine.Engine SELECT games.id, games.title, games.store, games.runner, games.status, games.description, games.cover_art_url, games.install_path, games.executable_path, games.last_played, games.total_play_time_seconds, games.is_favorite, games.created_at, games.updated_at
+FROM games
+SELECT games.id, games.title, games.store, games.runner, games.status, games.description, games.cover_art_url, games.install_path, games.executable_path, games.last_played, games.total_play_time_seconds, games.is_favorite, games.created_at, games.updated_at
+FROM games
+2026-07-11 11:47:43,706 INFO sqlalchemy.engine.Engine [cached since 23.56s ago] ()
+[cached since 23.56s ago] ()
+INFO:     127.0.0.1:58076 - "GET /api/library/games HTTP/1.1" 200 OK
+^A
