@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 import urllib.parse
 from typing import cast
 
@@ -11,6 +12,7 @@ import httpx
 import structlog
 
 from app.core.config import settings
+from app.core.domain.enums import StoreSource
 from app.core.interfaces.repositories import GameRepository
 from app.core.use_cases.library import GameResult, LibraryUseCases
 
@@ -21,6 +23,22 @@ STEAM_COVER_CDN = "https://steamcdn-a.akamaihd.net/steam/apps/{appid}/library_60
 
 STEAMGRIDDB_SEARCH_URL = "https://www.steamgriddb.com/api/v2/search/autocomplete/{query}"
 STEAMGRIDDB_GRIDS_URL = "https://www.steamgriddb.com/api/v2/grids/game/{game_id}"
+
+# GOG CDN patterns — the embed API returns small ~196x196 thumbnails from
+# images.gog-cdn.com.  We try to "upscale" by requesting known larger
+# size variants before falling back to other sources.
+_GOG_CDN_RE = re.compile(
+    r"https?://images\.gog-cdn\.com/.+",
+)
+
+
+def _is_gog_thumbnail(url: str) -> bool:
+    """Return True if *url* looks like a small GOG CDN thumbnail.
+
+    GOG embeds return tiny box-art images from ``images.gog-cdn.com``.
+    Any URL from that host is considered a candidate for upgrade.
+    """
+    return bool(_GOG_CDN_RE.match(url))
 
 
 async def search_steam_cover(game_title: str) -> str | None:
@@ -192,6 +210,88 @@ async def search_steamgriddb_cover(game_title: str) -> str | None:
     return None
 
 
+async def search_gog_cover(title: str, current_cover_url: str = "") -> str | None:
+    """Try to find a higher-resolution cover for a GOG game.
+
+    Strategy:
+    1. If we already have a GOG CDN URL, probe common larger-size variants
+       on the same CDN path (e.g. ``_cd600`` suffixes).
+    2. Search SteamGridDB for the game title (reliable fallback).
+    3. Search the Steam store (cross-platform games that also exist on Steam).
+
+    This function does **not** require a GOG authentication token.
+    Returns a better cover URL if found, ``None`` otherwise.
+    """
+    if not title or not title.strip():
+        return None
+
+    # --- Strategy 1: probe GOG CDN size variants ---
+    if current_cover_url and _is_gog_thumbnail(current_cover_url):
+        larger = await _probe_gog_cdn_larger(current_cover_url)
+        if larger:
+            return larger
+
+    # --- Strategy 2: SteamGridDB (reliable high-quality covers) ---
+    sgdb = await search_steamgriddb_cover(title)
+    if sgdb:
+        return sgdb
+
+    # --- Strategy 3: Steam store search ---
+    steam = await search_steam_cover(title)
+    if steam:
+        return steam
+
+    return None
+
+
+async def _probe_gog_cdn_larger(url: str) -> str | None:
+    """Probe GOG CDN for larger versions of a thumbnail URL.
+
+    GOG CDN images sometimes have size-suffixed variants.  For example::
+
+        images.gog-cdn.com/igmg/abc123.jpg
+        images.gog-cdn.com/igmg/abc123_cd600.jpg
+
+    We try common suffixes and return the first one that responds with
+    a successful HEAD request **and** a ``Content-Length`` above a minimum
+    threshold (10 KB), which indicates a meaningfully larger image.
+    """
+    # Suffixes ordered from largest to smallest so we grab the best one early.
+    suffixes = ["_cd600", "_cd400", "_cd200"]
+
+    # Split on last '.' to insert the suffix before the extension.
+    dot_pos = url.rfind(".")
+    if dot_pos == -1:
+        return None
+    base = url[:dot_pos]
+    ext = url[dot_pos:]
+
+    min_bytes = 10_240  # 10 KB — tiny thumbnails are well below this
+
+    try:
+        async with httpx.AsyncClient(timeout=8, follow_redirects=True) as client:
+            for suffix in suffixes:
+                candidate = f"{base}{suffix}{ext}"
+                try:
+                    resp = await client.head(candidate)
+                    if resp.is_success:
+                        length = int(resp.headers.get("content-length", "0"))
+                        if length >= min_bytes:
+                            logger.info(
+                                "Found larger GOG CDN cover",
+                                original=url,
+                                upgraded=candidate,
+                                size_bytes=length,
+                            )
+                            return candidate
+                except httpx.RequestError:
+                    continue  # try next suffix
+    except Exception as e:
+        logger.debug("GOG CDN probe failed", url=url, error=str(e))
+
+    return None
+
+
 async def search_epic_cover(store_id: str) -> str | None:
     """Extract cover art from Epic Games via Legendary info command.
 
@@ -302,18 +402,28 @@ async def refresh_game_cover(
         logger.warning("Game not found for cover refresh", game_id=game_id)
         return False
 
-    # Skip if already has cover
-    if game.cover_art_url:
+    is_gog = game.store == StoreSource.GOG
+    has_cover = bool(game.cover_art_url)
+    has_gog_thumb = is_gog and has_cover and _is_gog_thumbnail(game.cover_art_url)
+
+    # Skip only when the cover is already good.
+    # GOG games with small CDN thumbnails are NOT skipped — they need upgrading.
+    if has_cover and not has_gog_thumb:
         logger.debug("Game already has cover, skipping", title=game.title)
         return False
 
     # Multi-source cover art strategy
     cover_url = None
 
-    # Source 1: Steam store search (catches cross-platform games)
-    cover_url = await search_steam_cover(game.title)
+    # Source 1 (GOG only): try GOG CDN upsizing + SteamGridDB/Steam fallback
+    if is_gog:
+        cover_url = await search_gog_cover(game.title, game.cover_art_url)
 
-    # Source 2: SteamGridDB (fallback for anything else)
+    # Source 2: Steam store search (catches cross-platform games)
+    if not cover_url:
+        cover_url = await search_steam_cover(game.title)
+
+    # Source 3: SteamGridDB (fallback for anything else)
     if not cover_url:
         cover_url = await search_steamgriddb_cover(game.title)
 
@@ -356,7 +466,14 @@ async def refresh_missing_covers(
         repo = _get_repo()
 
     all_games = use_cases.list_all_games()
-    missing = [g for g in all_games if not g.cover_art_url]
+    missing = [
+        g for g in all_games
+        if not g.cover_art_url
+        or (
+            g.store == StoreSource.GOG
+            and _is_gog_thumbnail(g.cover_art_url)
+        )
+    ]
 
     if not missing:
         return {"refreshed": 0, "failed": 0, "total_checked": 0}

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import AsyncGenerator
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from asgi_lifespan import LifespanManager
@@ -93,8 +94,18 @@ class TestStoreGamesEndpoint:
 
     @pytest.mark.asyncio
     async def test_games_cli_not_installed(self, client: AsyncClient) -> None:
-        """Listing games when CLI is not installed should return 502."""
-        response = await client.get("/api/stores/epic/games")
-        # EpicStore.list_games will fail because legendary is not installed
-        assert response.status_code == 502
-        assert "detail" in response.json()
+        """Listing games when CLI is not installed should return 502.
+
+        Mocks _run_command to raise RuntimeError (simulating a missing CLI)
+        so the test passes regardless of whether legendary is installed.
+        """
+        with patch(
+            "app.stores.epic.EpicStore._run_command",
+            new_callable=AsyncMock,
+            side_effect=RuntimeError(
+                "legendary is not installed or not found on PATH"
+            ),
+        ):
+            response = await client.get("/api/stores/epic/games")
+            assert response.status_code == 502
+            assert "detail" in response.json()
