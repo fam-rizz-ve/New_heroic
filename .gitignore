@@ -55,3 +55,4 @@ package-lock.json
 
 # Database
 *.db
+log.txt
